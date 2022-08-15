@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Orbital Colossus.mp3-2b1af411296dbc11d77366e5ccc94d8f.mp3str"
+
+[deps]
+
+source_file="res://sprites/Songs/Orbital Colossus.mp3"
+dest_files=[ "res://.import/Orbital Colossus.mp3-2b1af411296dbc11d77366e5ccc94d8f.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

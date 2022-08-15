@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/mixkit-space-game-668.mp3-25f6cca6bd158ba2a1573914cda9b30a.mp3str"
+
+[deps]
+
+source_file="res://sprites/Songs/mixkit-space-game-668.mp3"
+dest_files=[ "res://.import/mixkit-space-game-668.mp3-25f6cca6bd158ba2a1573914cda9b30a.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

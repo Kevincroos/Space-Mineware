@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/explosion_dull.mp3-8a30347224eca2935eff5633817477b7.mp3str"
+
+[deps]
+
+source_file="res://sprites/Songs/explosion_dull.mp3"
+dest_files=[ "res://.import/explosion_dull.mp3-8a30347224eca2935eff5633817477b7.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

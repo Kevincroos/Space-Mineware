@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/tir.mp3-b1450cdad1c9417a121075382ea7cfc6.mp3str"
+
+[deps]
+
+source_file="res://sprites/Songs/tir.mp3"
+dest_files=[ "res://.import/tir.mp3-b1450cdad1c9417a121075382ea7cfc6.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

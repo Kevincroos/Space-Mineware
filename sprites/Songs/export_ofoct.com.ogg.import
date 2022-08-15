@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/export_ofoct.com.ogg-17ee71f22d0d229bff5182ebc0a47763.oggstr"
+
+[deps]
+
+source_file="res://sprites/Songs/export_ofoct.com.ogg"
+dest_files=[ "res://.import/export_ofoct.com.ogg-17ee71f22d0d229bff5182ebc0a47763.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
