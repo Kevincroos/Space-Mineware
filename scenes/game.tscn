@@ -1,0 +1,1157 @@
+[gd_scene load_steps=80 format=2]
+
+[ext_resource path="res://sprites/HUD/cristais.png" type="Texture" id=1]
+[ext_resource path="res://scenes/scripts/ship.gd" type="Script" id=2]
+[ext_resource path="res://sprites/ships/ship.png" type="Texture" id=3]
+[ext_resource path="res://scenes/scripts/Background.gd" type="Script" id=4]
+[ext_resource path="res://scenes/scripts/camera.gd" type="Script" id=5]
+[ext_resource path="res://scenes/scripts/inimigos.gd" type="Script" id=6]
+[ext_resource path="res://scenes/scripts/lasers.gd" type="Script" id=7]
+[ext_resource path="res://sprites/Songs/mixkit-space-game-668.mp3" type="AudioStream" id=8]
+[ext_resource path="res://scenes/scripts/minimap.gd" type="Script" id=9]
+[ext_resource path="res://sprites/Fonts/GravityBold8.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://scenes/scripts/game.gd" type="Script" id=11]
+[ext_resource path="res://scenes/scripts/HUD.gd" type="Script" id=12]
+[ext_resource path="res://scenes/shield.tscn" type="PackedScene" id=13]
+[ext_resource path="res://sprites/HUD/Hull_Bar.png" type="Texture" id=14]
+[ext_resource path="res://sprites/HUD/missel.png" type="Texture" id=15]
+[ext_resource path="res://sprites/Scenario/planet.png" type="Texture" id=16]
+[ext_resource path="res://sprites/HUD/Fuel_Bar.png" type="Texture" id=17]
+[ext_resource path="res://sprites/Songs/Orbital Colossus.mp3" type="AudioStream" id=18]
+[ext_resource path="res://sprites/Songs/export_ofoct.com.ogg" type="AudioStream" id=19]
+[ext_resource path="res://sprites/HUD/tile006.png" type="Texture" id=20]
+[ext_resource path="res://sprites/HUD/Radar_Frame.png" type="Texture" id=21]
+[ext_resource path="res://sprites/HUD/tile004.png" type="Texture" id=22]
+[ext_resource path="res://sprites/HUD/tile003.png" type="Texture" id=23]
+[ext_resource path="res://sprites/ships/Spaceships.png" type="Texture" id=24]
+[ext_resource path="res://sprites/Songs/coinsplash.ogg" type="AudioStream" id=25]
+[ext_resource path="res://sprites/Songs/explosion_dull.mp3" type="AudioStream" id=26]
+[ext_resource path="res://sprites/Scenario/background.png" type="Texture" id=27]
+[ext_resource path="res://sprites/Coletaveis/cristais-vermelhos.png" type="Texture" id=28]
+[ext_resource path="res://sprites/Coletaveis/cristais-laranjas.png" type="Texture" id=29]
+[ext_resource path="res://sprites/Coletaveis/cristais-azuis.png" type="Texture" id=30]
+[ext_resource path="res://sprites/Coletaveis/cristais-verdes.png" type="Texture" id=31]
+[ext_resource path="res://sprites/Coletaveis/cristais-cinzas.png" type="Texture" id=32]
+[ext_resource path="res://sprites/Songs/bing1.wav" type="AudioStream" id=33]
+[ext_resource path="res://sprites/Effects/explosion-1.png" type="Texture" id=34]
+[ext_resource path="res://sprites/HUD/tile005.png" type="Texture" id=35]
+[ext_resource path="res://sprites/Buttons/button-jump.png" type="Texture" id=36]
+
+[sub_resource type="Shader" id=3]
+code = "// NOTE: Shader automatically converted from Godot Engine 3.4.2.stable's CanvasItemMaterial.
+
+shader_type canvas_item;
+
+uniform float vel = -.2f;
+uniform float mov = 0f;
+uniform float time = 0f;
+
+void fragment(){
+	COLOR = texture(TEXTURE, UV + (vec2(0, 1f) * time * vel) + vec2(mov, 0));
+}"
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
+shader_param/vel = -0.3
+shader_param/mov = 1.611
+shader_param/time = 10.0
+
+[sub_resource type="CircleShape2D" id=12]
+radius = 14.0
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+render_mode blend_add;
+
+uniform float pixel_size = 0.03;
+
+uniform float intensity = 1.18f;
+uniform float layers = 5f;
+uniform float speed = 0.3f;
+uniform float size = 0.4f;
+
+float gradient(vec2 uv){
+    return (size - distance(vec2(uv.x, uv.y), vec2(0.5f, 0.5f))); 
+}
+
+vec4 colorize(float c, float a){
+    vec4 pallete;
+    pallete = vec4(c,c,c,a);
+    pallete.r = float(c >= 1f);
+    pallete.a = c;
+    return pallete;
+}
+
+void fragment(){
+	
+    vec2 uv = UV - TIME * speed;
+    uv -= mod(uv, vec2(pixel_size, pixel_size));
+    vec4 bg = textureLod(TEXTURE, uv, 0.0);
+    
+    COLOR.r = gradient(UV);
+    COLOR.r = clamp(COLOR.r * bg.r * intensity * 10f, 0f, 1f);
+    COLOR.r = floor(COLOR.r * layers) / layers;
+    COLOR.a = float(COLOR.r > 0f);
+    COLOR = colorize(COLOR.r, COLOR.a);
+	
+}"
+
+[sub_resource type="ShaderMaterial" id=51]
+shader = SubResource( 1 )
+shader_param/pixel_size = 0.03
+shader_param/intensity = 1.18
+shader_param/layers = 80.0
+shader_param/speed = 2.0
+shader_param/size = 0.5
+
+[sub_resource type="OpenSimplexNoise" id=52]
+seed = 21
+octaves = 1
+period = 85.4
+persistence = 0.433
+
+[sub_resource type="NoiseTexture" id=53]
+width = 80
+height = 80
+seamless = true
+as_normalmap = true
+bump_strength = 32.0
+noise = SubResource( 52 )
+
+[sub_resource type="Animation" id=54]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ship:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("morte:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=27]
+resource_name = "morte"
+length = 0.4
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("morte:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "movimento"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Ship:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.00301298, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="DynamicFont" id=6]
+size = 12
+font_data = ExtResource( 10 )
+
+[sub_resource type="DynamicFontData" id=13]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=14]
+size = 8
+font_data = SubResource( 13 )
+
+[sub_resource type="DynamicFontData" id=21]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=22]
+size = 4
+font_data = SubResource( 21 )
+
+[sub_resource type="DynamicFontData" id=47]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=48]
+size = 6
+font_data = SubResource( 47 )
+
+[sub_resource type="Animation" id=49]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("zoneAlert:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 44 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("zoneAlert:custom_colors/font_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.219608 ) ]
+}
+
+[sub_resource type="Animation" id=50]
+resource_name = "new_zone"
+length = 7.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("zoneAlert:custom_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.7, 4, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.219608 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("zoneAlert:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.7, 7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 44 ), Vector2( 0, 56 ), Vector2( 0, 56 ) ]
+}
+
+[sub_resource type="DynamicFontData" id=41]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=42]
+size = 3
+font_data = SubResource( 41 )
+
+[sub_resource type="DynamicFontData" id=15]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=16]
+size = 10
+font_data = SubResource( 15 )
+
+[sub_resource type="DynamicFontData" id=23]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=24]
+size = 5
+font_data = SubResource( 23 )
+
+[sub_resource type="DynamicFontData" id=17]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=18]
+size = 13
+font_data = SubResource( 17 )
+
+[sub_resource type="DynamicFontData" id=19]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=20]
+size = 13
+font_data = SubResource( 19 )
+
+[sub_resource type="Animation" id=33]
+length = 0.001
+
+[sub_resource type="Animation" id=34]
+resource_name = "pontuacao"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("pontuacao:custom_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.926797, 0.111111, 0.111111, 1 ), Color( 1, 0.607843, 0, 1 ), Color( 1, 0.92549, 0.12549, 1 ), Color( 0.290196, 1, 0, 1 ), Color( 0, 1, 0.976471, 1 ), Color( 0, 0.109804, 1, 1 ), Color( 0.454902, 0, 1, 1 ), Color( 1, 0, 0.960784, 1 ), Color( 1, 0, 0.494118, 1 ), Color( 1, 0, 0, 1 ) ]
+}
+
+[sub_resource type="DynamicFontData" id=45]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=46]
+size = 6
+font_data = SubResource( 45 )
+
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=28]
+size = 10
+font_data = SubResource( 5 )
+
+[sub_resource type="DynamicFontData" id=29]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=30]
+outline_size = 1
+outline_color = Color( 0.345098, 0.345098, 0.345098, 1 )
+font_data = SubResource( 29 )
+
+[sub_resource type="DynamicFontData" id=44]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=32]
+size = 6
+font_data = SubResource( 44 )
+
+[sub_resource type="Animation" id=35]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("score:custom_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=37]
+resource_name = "botoes"
+length = 0.6
+
+[sub_resource type="Animation" id=38]
+resource_name = "botoes2"
+length = 0.6
+loop = true
+
+[sub_resource type="Animation" id=36]
+resource_name = "final"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("score:custom_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0, 0, 1 ), Color( 1, 0.494118, 0, 1 ), Color( 1, 0.772549, 0, 1 ), Color( 0.243137, 1, 0, 1 ), Color( 0, 1, 0.811765, 1 ), Color( 0, 0.133333, 1, 1 ), Color( 0.709804, 0, 1, 1 ), Color( 1, 0, 0.584314, 1 ), Color( 1, 0, 0, 1 ) ]
+}
+
+[node name="game" type="Node2D"]
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_horizontal_guides_": [ -152.0 ]
+}
+
+[node name="camera" type="Camera2D" parent="." groups=["camera"]]
+anchor_mode = 0
+current = true
+script = ExtResource( 5 )
+
+[node name="Background" type="Sprite" parent="."]
+material = SubResource( 4 )
+position = Vector2( -51, -84 )
+scale = Vector2( 1.6, 1.6 )
+texture = ExtResource( 27 )
+centered = false
+script = ExtResource( 4 )
+nave = NodePath("../ship")
+
+[node name="Planet" type="Sprite" parent="."]
+position = Vector2( 103, -507 )
+scale = Vector2( 1.7, 1.7 )
+texture = ExtResource( 16 )
+script = ExtResource( 4 )
+
+[node name="ship" type="Node2D" parent="." groups=["player"]]
+position = Vector2( 80, 169 )
+script = ExtResource( 2 )
+vel = 50.0
+lasers = NodePath("../cenario")
+
+[node name="dead_area" type="Area2D" parent="ship"]
+collision_mask = 4
+
+[node name="dead_shape" type="CollisionShape2D" parent="ship/dead_area"]
+position = Vector2( 0, -2 )
+shape = SubResource( 12 )
+
+[node name="Ship" type="Sprite" parent="ship"]
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 3 )
+hframes = 2
+
+[node name="shield" parent="ship" instance=ExtResource( 13 )]
+visible = false
+scale = Vector2( 0.967493, 1.04754 )
+
+[node name="Sprite" parent="ship/shield" index="0"]
+position = Vector2( -5.29382, 13.0206 )
+rotation = 1.5708
+scale = Vector2( 0.213288, 0.109013 )
+
+[node name="Sprite2" type="Sprite" parent="ship/shield"]
+material = SubResource( 51 )
+position = Vector2( 5.83508, 13.0203 )
+rotation = 1.5708
+scale = Vector2( 0.213, 0.101336 )
+texture = SubResource( 53 )
+
+[node name="anim" type="AnimationPlayer" parent="ship"]
+pause_mode = 2
+autoplay = "movimento"
+anims/RESET = SubResource( 54 )
+anims/morte = SubResource( 27 )
+anims/movimento = SubResource( 2 )
+
+[node name="blaster1" type="Position2D" parent="ship"]
+position = Vector2( -6, -14 )
+
+[node name="blaster2" type="Position2D" parent="ship"]
+position = Vector2( 6, -14 )
+
+[node name="Timer" type="Timer" parent="ship"]
+wait_time = 4.0
+
+[node name="game_over" type="Timer" parent="ship"]
+pause_mode = 2
+wait_time = 0.7
+
+[node name="Spaceships" type="Sprite" parent="ship"]
+visible = false
+rotation = 4.71239
+texture = ExtResource( 24 )
+hframes = 5
+vframes = 3
+
+[node name="hp" type="Node2D" parent="ship"]
+pause_mode = 2
+z_index = 5
+
+[node name="hp" type="Label" parent="ship/hp"]
+pause_mode = 2
+margin_left = -57.0
+margin_top = -30.0
+margin_right = 104.0
+margin_bottom = -6.0
+custom_colors/font_color = Color( 0.639216, 0, 0, 0.756863 )
+custom_colors/font_color_shadow = Color( 1, 1, 1, 0.815686 )
+custom_fonts/font = SubResource( 6 )
+text = "10"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="impact" type="AudioStreamPlayer" parent="ship"]
+stream = ExtResource( 33 )
+volume_db = -11.369
+
+[node name="impact2" type="AudioStreamPlayer" parent="ship"]
+stream = ExtResource( 26 )
+
+[node name="laser" type="AudioStreamPlayer" parent="ship"]
+stream = ExtResource( 25 )
+
+[node name="morte" type="Sprite" parent="ship"]
+scale = Vector2( 3.5, 3.5 )
+z_index = -1
+texture = ExtResource( 34 )
+hframes = 8
+
+[node name="cenario" type="Node2D" parent="."]
+script = ExtResource( 7 )
+nave = NodePath("../ship")
+
+[node name="inimigos" type="Node2D" parent="cenario"]
+script = ExtResource( 6 )
+
+[node name="spawn_timer" type="Timer" parent="cenario/inimigos"]
+
+[node name="HUD" type="CanvasLayer" parent="." groups=["hud"]]
+script = ExtResource( 12 )
+
+[node name="danger_bar_zone" type="Sprite" parent="HUD"]
+position = Vector2( 143, 110.748 )
+rotation = 1.5708
+scale = Vector2( 0.472787, 1 )
+z_index = -2
+texture = ExtResource( 17 )
+vframes = 2
+frame = 1
+
+[node name="safe_bar_zone" type="Sprite" parent="HUD"]
+position = Vector2( 143, 79 )
+rotation = 1.5708
+scale = Vector2( 0.134035, 1 )
+z_index = -2
+texture = ExtResource( 14 )
+vframes = 2
+frame = 1
+
+[node name="progress_map" type="Sprite" parent="HUD"]
+position = Vector2( 146, 155 )
+rotation = 1.5708
+scale = Vector2( 1.5, 1 )
+z_index = -2
+texture = ExtResource( 14 )
+vframes = 3
+
+[node name="score" type="Label" parent="HUD"]
+margin_top = 14.0
+margin_right = 161.0
+margin_bottom = 41.0
+custom_fonts/font = SubResource( 6 )
+text = "Pontos
+0000"
+align = 1
+
+[node name="pontuacao" type="Label" parent="HUD"]
+margin_left = 3.0
+margin_top = 47.0
+margin_right = 159.0
+margin_bottom = 74.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 14 )
+text = "Somente de passagem..."
+align = 1
+
+[node name="music" type="Label" parent="HUD"]
+visible = false
+margin_left = 55.0
+margin_top = 5.0
+margin_right = 160.0
+margin_bottom = 17.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = SubResource( 6 )
+text = "music: OFF"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="minimap" type="Node2D" parent="HUD"]
+script = ExtResource( 9 )
+
+[node name="space_zone" type="Timer" parent="HUD/minimap"]
+
+[node name="mini-ship" type="Sprite" parent="HUD/minimap"]
+position = Vector2( 146.5, 234 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 3 )
+hframes = 2
+
+[node name="spawn_timer" type="Timer" parent="HUD/minimap"]
+
+[node name="danger" type="Label" parent="HUD/minimap"]
+visible = false
+margin_top = 69.0
+margin_right = 161.0
+margin_bottom = 96.0
+custom_colors/font_color = Color( 0.639216, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 6 )
+text = "Danger!"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="safe_zone" type="Label" parent="HUD/minimap"]
+visible = false
+margin_left = 2.0
+margin_top = 70.0
+margin_right = 158.0
+margin_bottom = 97.0
+custom_colors/font_color = Color( 0.0313726, 1, 0, 1 )
+custom_colors/font_color_shadow = Color( 0.262745, 0.262745, 0.262745, 1 )
+custom_fonts/font = SubResource( 14 )
+text = "SAFE ZONE"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="stop_safe" type="Label" parent="HUD/minimap"]
+visible = false
+margin_top = 254.0
+margin_right = 160.0
+margin_bottom = 259.0
+custom_fonts/font = SubResource( 22 )
+text = "Renovando power ups..."
+align = 1
+valign = 1
+
+[node name="zoneAlert" type="Label" parent="HUD/minimap"]
+visible = false
+margin_top = 44.0
+margin_right = 160.0
+margin_bottom = 57.9999
+custom_colors/font_color = Color( 1, 1, 1, 0.219608 )
+custom_fonts/font = SubResource( 48 )
+text = "planet, sistem, location"
+align = 1
+valign = 1
+
+[node name="anim" type="AnimationPlayer" parent="HUD/minimap"]
+playback_speed = 3.0
+anims/RESET = SubResource( 49 )
+anims/new_zone = SubResource( 50 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="HUD/minimap"]
+stream = ExtResource( 8 )
+autoplay = true
+mix_target = 2
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="HUD/minimap"]
+stream = ExtResource( 18 )
+mix_target = 2
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="HUD/minimap"]
+stream = ExtResource( 19 )
+mix_target = 2
+
+[node name="marketplace" type="Node2D" parent="HUD/minimap"]
+position = Vector2( 180, 174 )
+
+[node name="speed" type="Button" parent="HUD/minimap/marketplace"]
+margin_left = -119.0
+margin_top = 93.0
+margin_right = 71.0
+margin_bottom = 273.0
+rect_scale = Vector2( 0.1, 0.1 )
+disabled = true
+icon = ExtResource( 22 )
+flat = true
+expand_icon = true
+
+[node name="hp" type="Button" parent="HUD/minimap/marketplace"]
+margin_left = -100.0
+margin_top = 93.0
+margin_right = 90.0
+margin_bottom = 273.0
+rect_scale = Vector2( 0.1, 0.1 )
+disabled = true
+icon = ExtResource( 23 )
+flat = true
+expand_icon = true
+
+[node name="friend" type="Button" parent="HUD/minimap/marketplace"]
+margin_left = -138.0
+margin_top = 93.0
+margin_right = 52.0
+margin_bottom = 273.0
+rect_scale = Vector2( 0.1, 0.1 )
+disabled = true
+icon = ExtResource( 20 )
+flat = true
+expand_icon = true
+
+[node name="laser" type="Button" parent="HUD/minimap/marketplace"]
+margin_left = -81.0
+margin_top = 93.0
+margin_right = 109.0
+margin_bottom = 273.0
+rect_scale = Vector2( 0.1, 0.1 )
+disabled = true
+icon = ExtResource( 35 )
+flat = true
+expand_icon = true
+
+[node name="distance" type="Node2D" parent="HUD/minimap"]
+position = Vector2( 124, 72 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="clock" type="Timer" parent="HUD/minimap/distance"]
+
+[node name="Label" type="Label" parent="HUD/minimap/distance"]
+margin_right = 24.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 42 )
+text = "0 Km"
+
+[node name="recarga" type="Node2D" parent="HUD"]
+position = Vector2( 80, 248 )
+
+[node name="sprite" type="Sprite" parent="HUD/recarga"]
+visible = false
+position = Vector2( 61, 25 )
+texture = ExtResource( 15 )
+
+[node name="tutorial" type="Node2D" parent="HUD"]
+position = Vector2( 0, 39 )
+scale = Vector2( 0.7, 0.7 )
+
+[node name="map_info" type="Label" parent="HUD/tutorial"]
+margin_left = 81.0
+margin_top = 59.4286
+margin_right = 240.0
+margin_bottom = 77.4286
+custom_fonts/font = SubResource( 16 )
+text = "Minimap"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hp_info" type="Label" parent="HUD/tutorial"]
+margin_left = 34.0
+margin_top = 211.143
+margin_right = 194.0
+margin_bottom = 229.143
+custom_fonts/font = SubResource( 16 )
+text = "HP"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="score_info" type="Label" parent="HUD/tutorial"]
+margin_left = -21.4286
+margin_top = 59.0
+margin_right = 138.571
+margin_bottom = 77.0
+custom_fonts/font = SubResource( 16 )
+text = "Sua pontução"
+align = 1
+
+[node name="info3" type="Label" parent="HUD/tutorial"]
+margin_left = 73.0
+margin_top = 222.143
+margin_right = 151.0
+margin_bottom = 264.143
+custom_fonts/font = SubResource( 24 )
+text = "Você tem um HP limitado, 
+e ela diminui
+ na medida que você
+ colide com 
+outros objetos"
+align = 1
+valign = 1
+
+[node name="info4" type="Label" parent="HUD/tutorial"]
+margin_left = 118.0
+margin_top = 71.4286
+margin_right = 209.0
+margin_bottom = 118.429
+custom_fonts/font = SubResource( 24 )
+text = "Sua nave
+vai explorar muitas 
+zonas, 
+tome cuidado com o
+perigos que há nelas."
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="info5" type="Label" parent="HUD/tutorial"]
+margin_left = -3.42857
+margin_top = 68.0
+margin_right = 120.571
+margin_bottom = 128.0
+custom_fonts/font = SubResource( 24 )
+text = "Quando 
+um asteróide é destruído
+sua pontuação 
+aumenta em pontos,
+pequenos 
+asteróides tem mais
+pontos."
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="space" type="Label" parent="HUD/tutorial"]
+margin_left = 97.8571
+margin_top = 155.0
+margin_right = 256.857
+margin_bottom = 173.0
+custom_fonts/font = SubResource( 16 )
+text = "Attack"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="awsd" type="Label" parent="HUD/tutorial"]
+margin_left = -32.4286
+margin_top = 156.0
+margin_right = 127.571
+margin_bottom = 174.0
+custom_fonts/font = SubResource( 16 )
+text = "Controles"
+align = 1
+
+[node name="Label4" type="Label" parent="HUD/tutorial"]
+margin_left = -34.4286
+margin_top = 167.0
+margin_right = 126.571
+margin_bottom = 215.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
+custom_fonts/font = SubResource( 18 )
+text = "A W S D
+ou
+⬅⬇⬆➡"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label5" type="Label" parent="HUD/tutorial"]
+margin_left = 92.8571
+margin_top = 167.0
+margin_right = 255.857
+margin_bottom = 215.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
+custom_fonts/font = SubResource( 20 )
+text = "SPACE
+ou
+ENTER"
+align = 1
+
+[node name="anim" type="AnimationPlayer" parent="HUD"]
+playback_speed = 0.8
+anims/RESET = SubResource( 33 )
+anims/pontuacao = SubResource( 34 )
+
+[node name="inventory" type="Label" parent="HUD"]
+margin_left = 60.0
+margin_top = 258.0
+margin_right = 102.0
+margin_bottom = 272.0
+custom_fonts/font = SubResource( 46 )
+text = "inventário"
+
+[node name="goBack" type="Node2D" parent="HUD"]
+pause_mode = 1
+visible = false
+
+[node name="RadarFrame" type="Sprite" parent="HUD/goBack"]
+position = Vector2( 82, 120 )
+scale = Vector2( 0.553571, 0.995115 )
+texture = ExtResource( 21 )
+
+[node name="Label" type="Label" parent="HUD/goBack"]
+margin_left = 62.0
+margin_top = 93.0
+margin_right = 104.0
+margin_bottom = 103.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 28 )
+text = "Sair?"
+align = 1
+
+[node name="yes" type="Button" parent="HUD/goBack"]
+pause_mode = 1
+margin_left = 70.0
+margin_top = 109.0
+margin_right = 121.0
+margin_bottom = 133.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = SubResource( 30 )
+text = "Sim"
+flat = true
+
+[node name="no" type="Button" parent="HUD/goBack"]
+pause_mode = 1
+margin_left = 70.0
+margin_top = 127.0
+margin_right = 121.0
+margin_bottom = 151.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = SubResource( 30 )
+text = "Não"
+flat = true
+
+[node name="buttons" type="Node2D" parent="HUD"]
+visible = false
+
+[node name="up" type="Button" parent="HUD/buttons"]
+visible = false
+margin_left = 18.0
+margin_top = 222.0
+margin_right = 71.0
+margin_bottom = 268.0
+rect_scale = Vector2( 0.5, 0.5 )
+icon = ExtResource( 36 )
+flat = true
+
+[node name="down" type="Button" parent="HUD/buttons"]
+visible = false
+margin_left = 44.0
+margin_top = 279.0
+margin_right = 97.0
+margin_bottom = 325.0
+rect_rotation = 180.0
+rect_scale = Vector2( 0.5, 0.5 )
+icon = ExtResource( 36 )
+flat = true
+
+[node name="right" type="Button" parent="HUD/buttons"]
+visible = false
+margin_left = 60.0
+margin_top = 238.0
+margin_right = 113.0
+margin_bottom = 284.0
+rect_rotation = 90.0
+rect_scale = Vector2( 0.5, 0.5 )
+icon = ExtResource( 36 )
+flat = true
+
+[node name="left" type="Button" parent="HUD/buttons"]
+visible = false
+margin_left = 2.0
+margin_top = 264.0
+margin_right = 55.0
+margin_bottom = 310.0
+rect_rotation = 270.0
+rect_scale = Vector2( 0.5, 0.5 )
+icon = ExtResource( 36 )
+flat = true
+
+[node name="fire" type="Button" parent="HUD/buttons"]
+margin_left = 4.0
+margin_top = 260.0
+margin_right = 40.0
+margin_bottom = 282.0
+icon = ExtResource( 15 )
+
+[node name="ready" type="Node2D" parent="HUD"]
+pause_mode = 2
+position = Vector2( 0, -9 )
+
+[node name="enviar" type="Button" parent="HUD/ready"]
+margin_left = 54.0
+margin_top = 160.0
+margin_right = 178.0
+margin_bottom = 230.0
+rect_scale = Vector2( 0.4, 0.4 )
+icon = ExtResource( 21 )
+flat = true
+
+[node name="label" type="Label" parent="HUD/ready"]
+margin_left = 54.0
+margin_top = 161.0
+margin_right = 105.0
+margin_bottom = 187.0
+custom_fonts/font = SubResource( 32 )
+text = "Entendi"
+align = 1
+valign = 1
+
+[node name="enviar2" type="Button" parent="HUD/ready"]
+margin_left = 56.0
+margin_top = 187.0
+margin_right = 101.0
+margin_bottom = 207.0
+
+[node name="label2" type="Label" parent="HUD/ready"]
+margin_left = 60.0
+margin_top = 190.0
+margin_right = 154.0
+margin_bottom = 225.0
+rect_scale = Vector2( 0.4, 0.4 )
+custom_fonts/font = SubResource( 32 )
+text = "Jogar com o mouse"
+align = 1
+valign = 1
+
+[node name="morte" type="Node2D" parent="HUD"]
+visible = false
+z_index = 5
+
+[node name="jogar" type="Button" parent="HUD/morte"]
+margin_left = 95.0
+margin_top = 185.0
+margin_right = 219.0
+margin_bottom = 255.0
+rect_scale = Vector2( 0.5, 0.5 )
+icon = ExtResource( 21 )
+flat = true
+
+[node name="sair" type="Button" parent="HUD/morte"]
+margin_left = 52.0
+margin_top = 150.0
+margin_right = 176.0
+margin_bottom = 220.0
+rect_scale = Vector2( 0.5, 0.5 )
+icon = ExtResource( 21 )
+flat = true
+
+[node name="scores" type="Button" parent="HUD/morte"]
+margin_left = 4.0
+margin_top = 185.0
+margin_right = 128.0
+margin_bottom = 255.0
+rect_scale = Vector2( 0.5, 0.5 )
+icon = ExtResource( 21 )
+flat = true
+
+[node name="scores2" type="Label" parent="HUD/morte"]
+margin_left = 8.0
+margin_top = 187.0
+margin_right = 62.0
+margin_bottom = 217.0
+custom_fonts/font = SubResource( 32 )
+text = "Scores"
+align = 1
+valign = 1
+
+[node name="sair2" type="Label" parent="HUD/morte"]
+margin_left = 56.0
+margin_top = 152.0
+margin_right = 110.0
+margin_bottom = 182.0
+custom_fonts/font = SubResource( 32 )
+text = "Menus"
+align = 1
+valign = 1
+
+[node name="jogar2" type="Label" parent="HUD/morte"]
+margin_left = 98.0
+margin_top = 187.0
+margin_right = 152.0
+margin_bottom = 217.0
+custom_fonts/font = SubResource( 32 )
+text = "Reiniciar"
+align = 1
+valign = 1
+
+[node name="final" type="Label" parent="HUD/morte"]
+margin_top = 108.0
+margin_right = 161.0
+margin_bottom = 135.0
+custom_fonts/font = SubResource( 6 )
+text = "Final score:"
+align = 1
+
+[node name="score" type="Label" parent="HUD/morte"]
+margin_left = 3.0
+margin_top = 127.0
+margin_right = 159.0
+margin_bottom = 154.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_fonts/font = SubResource( 14 )
+text = "score"
+align = 1
+
+[node name="anim" type="AnimationPlayer" parent="HUD/morte"]
+autoplay = "final"
+anims/RESET = SubResource( 35 )
+anims/botoes = SubResource( 37 )
+anims/botoes2 = SubResource( 38 )
+anims/final = SubResource( 36 )
+
+[node name="cristais" type="Node2D" parent="."]
+visible = false
+
+[node name="Cristais" type="Sprite" parent="cristais"]
+position = Vector2( 268, 203 )
+texture = ExtResource( 1 )
+
+[node name="Cristais-azuis" type="Sprite" parent="cristais"]
+position = Vector2( 267, 217 )
+texture = ExtResource( 30 )
+
+[node name="Cristais-cinzas" type="Sprite" parent="cristais"]
+position = Vector2( 267, 230 )
+texture = ExtResource( 32 )
+
+[node name="Cristais-laranjas" type="Sprite" parent="cristais"]
+position = Vector2( 268, 187 )
+texture = ExtResource( 29 )
+
+[node name="Cristais-verdes" type="Sprite" parent="cristais"]
+position = Vector2( 266, 245 )
+texture = ExtResource( 31 )
+
+[node name="Cristais-vermelhos" type="Sprite" parent="cristais"]
+position = Vector2( 266, 258 )
+texture = ExtResource( 28 )
+
+[connection signal="area_entered" from="ship/dead_area" to="." method="_on_dead_area_area_entered"]
+[connection signal="area_entered" from="ship/dead_area" to="ship" method="_on_dead_area_area_entered"]
+[connection signal="animation_finished" from="ship/anim" to="." method="_on_anim_animation_finished"]
+[connection signal="timeout" from="ship/Timer" to="ship" method="_on_Timer_timeout"]
+[connection signal="timeout" from="ship/game_over" to="." method="_on_game_over_timeout"]
+[connection signal="timeout" from="ship/game_over" to="ship" method="_on_game_over_timeout"]
+[connection signal="timeout" from="cenario/inimigos/spawn_timer" to="cenario/inimigos" method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="HUD/minimap/space_zone" to="HUD/minimap" method="_on_space_zone_timeout"]
+[connection signal="timeout" from="HUD/minimap/spawn_timer" to="cenario/inimigos" method="_on_spawn_timer_timeout"]
+[connection signal="animation_finished" from="HUD/minimap/anim" to="HUD/minimap" method="_on_anim_animation_finished"]
+[connection signal="pressed" from="HUD/minimap/marketplace/speed" to="." method="_on_speed_pressed"]
+[connection signal="pressed" from="HUD/minimap/marketplace/hp" to="." method="_on_hp_pressed"]
+[connection signal="pressed" from="HUD/minimap/marketplace/friend" to="." method="_on_friend_pressed"]
+[connection signal="pressed" from="HUD/minimap/marketplace/laser" to="." method="_on_laser_pressed"]
+[connection signal="timeout" from="HUD/minimap/distance/clock" to="." method="_on_clock_timeout"]
+[connection signal="pressed" from="HUD/goBack/yes" to="." method="_on_yes_pressed"]
+[connection signal="pressed" from="HUD/goBack/no" to="." method="_on_no_pressed"]
+[connection signal="button_down" from="HUD/buttons/up" to="." method="_on_up_button_down"]
+[connection signal="pressed" from="HUD/buttons/up" to="." method="_on_up_pressed"]
+[connection signal="toggled" from="HUD/buttons/up" to="." method="_on_up_toggled"]
+[connection signal="pressed" from="HUD/buttons/down" to="." method="_on_down_pressed"]
+[connection signal="pressed" from="HUD/buttons/right" to="." method="_on_right_pressed"]
+[connection signal="pressed" from="HUD/buttons/left" to="." method="_on_left_pressed"]
+[connection signal="pressed" from="HUD/buttons/fire" to="." method="_on_fire_pressed"]
+[connection signal="pressed" from="HUD/ready/enviar" to="." method="_on_enviar_pressed"]
+[connection signal="pressed" from="HUD/ready/enviar2" to="." method="_on_enviar2_pressed"]
+[connection signal="pressed" from="HUD/ready/enviar2" to="ship" method="_on_enviar2_pressed"]
+[connection signal="pressed" from="HUD/morte/jogar" to="." method="_on_jogar_pressed"]
+[connection signal="pressed" from="HUD/morte/sair" to="." method="_on_sair_pressed"]
+[connection signal="pressed" from="HUD/morte/scores" to="." method="_on_scores_pressed"]
+
+[editable path="ship/shield"]

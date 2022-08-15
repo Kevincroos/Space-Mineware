@@ -1,0 +1,509 @@
+[gd_scene load_steps=39 format=2]
+
+[ext_resource path="res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://sprites/Fonts/GravityBold8.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://sprites/ships/Spaceships_LightMask.png" type="Texture" id=3]
+[ext_resource path="res://sprites/galeria/3CDxl1.png" type="Texture" id=4]
+[ext_resource path="res://sprites/Buttons/button-left.png" type="Texture" id=5]
+[ext_resource path="res://sprites/asteroids/asteroid-5.png" type="Texture" id=6]
+[ext_resource path="res://sprites/Buttons/button-right.png" type="Texture" id=7]
+[ext_resource path="res://sprites/ships/ship.png" type="Texture" id=8]
+[ext_resource path="res://sprites/HUD/Radar_Frame.png" type="Texture" id=9]
+[ext_resource path="res://sprites/Scenario/planet.png" type="Texture" id=10]
+[ext_resource path="res://scenes/scripts/npc-menu.gd" type="Script" id=11]
+[ext_resource path="res://scenes/scripts/main-menu.gd" type="Script" id=12]
+[ext_resource path="res://scenes/scripts/camera-menu.gd" type="Script" id=13]
+[ext_resource path="res://scenes/scripts/inimigos2.gd" type="Script" id=14]
+
+[sub_resource type="Animation" id=14]
+length = 0.001
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("../splash_text:custom_fonts/font:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 8 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../splash_text:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("menu/splash_text:rect_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ) ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "splash"
+length = 0.9
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("menu/splash_text:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 0.8, 0.8 ), Vector2( 0.5, 0.5 ) ]
+}
+
+[sub_resource type="DynamicFont" id=3]
+size = 12
+use_filter = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFontData" id=11]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+font_data = SubResource( 11 )
+
+[sub_resource type="DynamicFontData" id=12]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=13]
+size = 6
+font_data = SubResource( 12 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 5
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFontData" id=17]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=18]
+size = 4
+font_data = SubResource( 17 )
+
+[sub_resource type="DynamicFontData" id=48]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=49]
+size = 3
+font_data = SubResource( 48 )
+
+[sub_resource type="DynamicFontData" id=42]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=43]
+size = 3
+font_data = SubResource( 42 )
+
+[sub_resource type="DynamicFontData" id=50]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=41]
+size = 4
+font_data = SubResource( 50 )
+
+[sub_resource type="DynamicFontData" id=51]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=47]
+size = 8
+font_data = SubResource( 51 )
+
+[sub_resource type="DynamicFontData" id=55]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=56]
+size = 3
+outline_size = 1
+font_data = SubResource( 55 )
+
+[sub_resource type="Animation" id=53]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Asteroid-5:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=54]
+resource_name = "rotacao"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Asteroid-5:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+
+[sub_resource type="DynamicFontData" id=57]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=58]
+size = 3
+font_data = SubResource( 57 )
+
+[node name="main-menu" type="Node2D"]
+pause_mode = 2
+script = ExtResource( 12 )
+scene_to_go = "res://scenes/game.tscn"
+
+[node name="background" type="Sprite" parent="."]
+position = Vector2( 61, 84 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
+
+[node name="Planet" type="Sprite" parent="."]
+position = Vector2( 80, 116 )
+texture = ExtResource( 10 )
+
+[node name="blink_timer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="anim" type="AnimationPlayer" parent="."]
+autoplay = "splash"
+playback_speed = 1.7
+anims/RESET = SubResource( 14 )
+anims/splash = SubResource( 15 )
+
+[node name="camera" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+script = ExtResource( 13 )
+
+[node name="menu" type="CanvasLayer" parent="."]
+
+[node name="SpaceshipsLightMask" type="Sprite" parent="menu"]
+self_modulate = Color( 1, 1, 1, 0.584314 )
+position = Vector2( 144, -21.765 )
+rotation = 1.5708
+texture = ExtResource( 3 )
+centered = false
+
+[node name="logo" type="Label" parent="menu"]
+margin_left = -2.0
+margin_top = 76.0
+margin_right = 159.0
+margin_bottom = 103.0
+custom_constants/shadow_offset_x = 0
+custom_fonts/font = SubResource( 3 )
+text = "Space shooter
+mineWare"
+align = 1
+
+[node name="play" type="Node2D" parent="menu"]
+position = Vector2( 47, 221 )
+
+[node name="play" type="Button" parent="menu/play"]
+margin_left = -1.0
+margin_top = -3.0
+margin_right = 699.0
+margin_bottom = 177.0
+rect_scale = Vector2( 0.1, 0.1 )
+mouse_filter = 1
+flat = true
+
+[node name="Label" type="Label" parent="menu/play"]
+margin_top = -2.0
+margin_right = 70.0
+margin_bottom = 14.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+custom_fonts/font = SubResource( 2 )
+text = "Start"
+align = 1
+
+[node name="Planet" type="Sprite" parent="menu/play"]
+position = Vector2( -11, 6 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 10 )
+
+[node name="Planet2" type="Sprite" parent="menu/play"]
+position = Vector2( 78, 6 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 10 )
+
+[node name="options" type="Node2D" parent="menu"]
+position = Vector2( 30, 240 )
+
+[node name="options" type="Button" parent="menu/options"]
+margin_left = -1.0
+margin_right = 1009.0
+margin_bottom = 176.0
+rect_scale = Vector2( 0.1, 0.1 )
+flat = true
+
+[node name="Label" type="Label" parent="menu/options"]
+margin_top = 1.0
+margin_right = 102.0
+margin_bottom = 17.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+custom_fonts/font = SubResource( 2 )
+text = "Options"
+align = 1
+
+[node name="Planet" type="Sprite" parent="menu/options"]
+position = Vector2( -11, 9 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 10 )
+
+[node name="Planet2" type="Sprite" parent="menu/options"]
+position = Vector2( 111, 9 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 10 )
+
+[node name="exit" type="Node2D" parent="menu"]
+position = Vector2( 54, 258 )
+
+[node name="exit" type="Button" parent="menu/exit"]
+margin_left = -3.0
+margin_top = 5.0
+margin_right = 547.0
+margin_bottom = 175.0
+rect_scale = Vector2( 0.1, 0.1 )
+flat = true
+
+[node name="Label" type="Label" parent="menu/exit"]
+margin_left = -54.0
+margin_top = 5.0
+margin_right = 106.0
+margin_bottom = 21.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+custom_fonts/font = SubResource( 2 )
+text = "Exit"
+align = 1
+
+[node name="Planet" type="Sprite" parent="menu/exit"]
+position = Vector2( -13, 14 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 10 )
+
+[node name="Planet2" type="Sprite" parent="menu/exit"]
+position = Vector2( 62, 14 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 10 )
+
+[node name="splash_text" type="Label" parent="menu"]
+margin_left = 105.0
+margin_top = 109.0
+margin_right = 158.0
+margin_bottom = 123.0
+rect_rotation = -19.8
+rect_scale = Vector2( 0.5, 0.5 )
+custom_colors/font_color = Color( 1, 0.913725, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 13 )
+text = "now Online!"
+
+[node name="version" type="Label" parent="menu"]
+margin_left = 1.0
+margin_top = 104.0
+margin_right = 89.0
+margin_bottom = 119.0
+custom_constants/shadow_offset_x = 0
+custom_fonts/font = SubResource( 4 )
+text = "RELEASE 1.0"
+align = 1
+
+[node name="autor" type="Label" parent="menu"]
+margin_left = 43.0
+margin_top = 64.0
+margin_right = 201.0
+margin_bottom = 80.0
+custom_constants/shadow_offset_x = 0
+custom_fonts/font = SubResource( 4 )
+text = "Otávio Augustus"
+align = 1
+valign = 1
+
+[node name="loadGame" type="Label" parent="menu"]
+visible = false
+margin_left = 79.0
+margin_top = 27.0
+margin_right = 176.0
+margin_bottom = 66.0
+rect_scale = Vector2( 0.7, 0.7 )
+custom_colors/font_color_shadow = Color( 0.101961, 0.101961, 0.101961, 1 )
+custom_constants/shadow_offset_x = 2
+custom_fonts/font = SubResource( 18 )
+text = "Bem vindo a bordo!
+ seu progresso foi carregado."
+align = 1
+autowrap = true
+
+[node name="Ship" type="Sprite" parent="menu"]
+position = Vector2( 97, 183 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 8 )
+hframes = 2
+
+[node name="logged" type="Label" parent="menu"]
+margin_left = 85.0
+margin_top = 192.0
+margin_right = 129.0
+margin_bottom = 206.0
+custom_fonts/font = SubResource( 49 )
+text = "Logado como:"
+
+[node name="player" type="Label" parent="menu"]
+margin_left = 84.0
+margin_top = 199.0
+margin_right = 129.0
+margin_bottom = 213.0
+custom_fonts/font = SubResource( 43 )
+text = "Not logged, how??"
+
+[node name="scoreboard" type="Node2D" parent="menu"]
+pause_mode = 2
+position = Vector2( 0, 14 )
+
+[node name="login" type="Node2D" parent="menu/scoreboard"]
+visible = false
+
+[node name="SpaceshipsLightMask" type="Sprite" parent="menu/scoreboard/login"]
+self_modulate = Color( 1, 1, 1, 0.670588 )
+position = Vector2( 187, 30 )
+rotation = 1.5708
+scale = Vector2( 0.646039, 3.32122 )
+texture = ExtResource( 3 )
+centered = false
+
+[node name="Asteroid-5" type="Sprite" parent="menu/scoreboard/login"]
+position = Vector2( 83.5, 120.875 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 6 )
+
+[node name="enviar" type="Button" parent="menu/scoreboard/login"]
+margin_left = 51.0
+margin_top = 157.0
+margin_right = 175.0
+margin_bottom = 227.0
+rect_scale = Vector2( 0.5, 0.3 )
+icon = ExtResource( 9 )
+flat = true
+
+[node name="label" type="Label" parent="menu/scoreboard/login"]
+margin_left = 42.0
+margin_top = 162.0
+margin_right = 121.0
+margin_bottom = 174.0
+custom_fonts/font = SubResource( 41 )
+text = "Entrar para
+ comunidade"
+align = 1
+valign = 1
+
+[node name="label2" type="Label" parent="menu/scoreboard/login"]
+margin_top = 5.0
+margin_right = 158.0
+margin_bottom = 29.0
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0.6, 0.6, 0.6, 1 )
+custom_fonts/font = SubResource( 47 )
+text = "Bem-vindo ao:"
+align = 1
+valign = 1
+
+[node name="label4" type="Label" parent="menu/scoreboard/login"]
+margin_top = 18.0
+margin_right = 158.0
+margin_bottom = 42.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 47 )
+text = "Space mineware"
+align = 1
+valign = 1
+
+[node name="label3" type="Label" parent="menu/scoreboard/login"]
+margin_left = 29.0
+margin_top = 70.0
+margin_right = 135.0
+margin_bottom = 155.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 56 )
+text = "O jogo esta finalmente On-line! E agora, voce precisa de algo para te representar la fora! Entao, nada mais pratico do que criar sua propria conta! E por falar nisso, agora voce pode jogar alem da conta (trocadilho :D)  com uma IN-SAVE feature que salva sua atividade no jogo e nao deixa ele ir embora quando voce o encerra!  Estatisticas, contas, rankings, tudo que  voce quer esta logo atras dessa tela... CRIE SUA CONTA"
+align = 1
+valign = 3
+autowrap = true
+
+[node name="anim" type="AnimationPlayer" parent="menu/scoreboard/login"]
+autoplay = "rotacao"
+playback_speed = 0.01
+anims/RESET = SubResource( 53 )
+anims/rotacao = SubResource( 54 )
+
+[node name="Label" type="Label" parent="menu/scoreboard/login"]
+margin_left = 23.0
+margin_top = 181.0
+margin_right = 151.0
+margin_bottom = 189.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 58 )
+text = "Envie seus pedidos para mim: otavioaugustusdev@outlook.com."
+
+[node name="Button-left" type="Sprite" parent="menu/scoreboard/login"]
+position = Vector2( 130, 167 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 5 )
+
+[node name="Button-right" type="Sprite" parent="menu/scoreboard/login"]
+position = Vector2( 35, 167 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 7 )
+
+[node name="cenario" type="Node2D" parent="."]
+
+[node name="inimigos" type="Node2D" parent="cenario"]
+script = ExtResource( 11 )
+
+[node name="spawn_timer" type="Timer" parent="cenario/inimigos"]
+
+[node name="inimigos2" type="Node2D" parent="cenario"]
+script = ExtResource( 14 )
+
+[node name="spawn_timer" type="Timer" parent="cenario/inimigos2"]
+
+[connection signal="timeout" from="blink_timer" to="." method="_on_blink_timer_timeout"]
+[connection signal="pressed" from="menu/play/play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="menu/options/options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="menu/exit/exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="menu/scoreboard/login/enviar" to="." method="_on_enviar_pressed"]
+[connection signal="timeout" from="cenario/inimigos/spawn_timer" to="cenario/inimigos" method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="cenario/inimigos2/spawn_timer" to="cenario/inimigos2" method="_on_spawn_timer_timeout"]

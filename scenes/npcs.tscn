@@ -1,0 +1,144 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scenes/scripts/npcs.gd" type="Script" id=1]
+
+[sub_resource type="StreamTexture" id=5]
+load_path = "res://.import/Spaceships.png-fd9f264f887e68c38e3004f4e5f416d6.stex"
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("asteroids:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "explosao"
+length = 0.25
+loop = true
+step = 0.01
+
+[sub_resource type="Animation" id=3]
+resource_name = "rotação"
+length = 3.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("asteroids:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+
+[node name="asteroid" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="asteroids" type="Node2D" parent="."]
+
+[node name="ship1" type="Sprite" parent="asteroids"]
+texture = SubResource( 5 )
+hframes = 5
+vframes = 3
+
+[node name="ship2" type="Sprite" parent="asteroids"]
+texture = SubResource( 5 )
+hframes = 5
+vframes = 3
+frame = 1
+
+[node name="ship3" type="Sprite" parent="asteroids"]
+texture = SubResource( 5 )
+hframes = 5
+vframes = 3
+frame = 2
+
+[node name="ship4" type="Sprite" parent="asteroids"]
+texture = SubResource( 5 )
+hframes = 5
+vframes = 3
+frame = 3
+
+[node name="ship5" type="Sprite" parent="asteroids"]
+texture = SubResource( 5 )
+hframes = 5
+vframes = 3
+frame = 4
+
+[node name="ship6" type="Sprite" parent="asteroids"]
+texture = SubResource( 5 )
+hframes = 5
+vframes = 3
+frame = 5
+
+[node name="ship7" type="Sprite" parent="asteroids"]
+texture = SubResource( 5 )
+hframes = 5
+vframes = 3
+frame = 6
+
+[node name="ship8" type="Sprite" parent="asteroids"]
+texture = SubResource( 5 )
+hframes = 5
+vframes = 3
+frame = 7
+
+[node name="ship9" type="Sprite" parent="asteroids"]
+texture = SubResource( 5 )
+hframes = 5
+vframes = 3
+frame = 8
+
+[node name="ship10" type="Sprite" parent="asteroids"]
+texture = SubResource( 5 )
+hframes = 5
+vframes = 3
+frame = 9
+
+[node name="ship11" type="Sprite" parent="asteroids"]
+texture = SubResource( 5 )
+hframes = 5
+vframes = 3
+frame = 10
+
+[node name="ship12" type="Sprite" parent="asteroids"]
+texture = SubResource( 5 )
+hframes = 5
+vframes = 3
+frame = 11
+
+[node name="ship13" type="Sprite" parent="asteroids"]
+texture = SubResource( 5 )
+hframes = 5
+vframes = 3
+frame = 12
+
+[node name="ship14" type="Sprite" parent="asteroids"]
+texture = SubResource( 5 )
+hframes = 5
+vframes = 3
+frame = 13
+
+[node name="ship15" type="Sprite" parent="asteroids"]
+texture = SubResource( 5 )
+hframes = 5
+vframes = 3
+frame = 14
+
+[node name="anim" type="AnimationPlayer" parent="."]
+autoplay = "rotação"
+anims/RESET = SubResource( 2 )
+anims/explosao = SubResource( 4 )
+"anims/rotação" = SubResource( 3 )

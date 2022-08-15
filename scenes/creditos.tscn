@@ -1,0 +1,208 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://sprites/Scenario/planet.png" type="Texture" id=1]
+[ext_resource path="res://sprites/ships/Spaceships_LightMask.png" type="Texture" id=2]
+[ext_resource path="res://scenes/scripts/creditos.gd" type="Script" id=4]
+[ext_resource path="res://sprites/notas/download.jpeg" type="Texture" id=5]
+[ext_resource path="res://sprites/Fonts/GravityBold8.ttf" type="DynamicFontData" id=6]
+
+[sub_resource type="DynamicFont" id=3]
+size = 8
+use_filter = true
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFontData" id=11]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=10]
+size = 13
+font_data = SubResource( 11 )
+
+[sub_resource type="DynamicFontData" id=8]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=9]
+size = 9
+font_data = SubResource( 8 )
+
+[sub_resource type="DynamicFontData" id=4]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=5]
+size = 6
+font_data = SubResource( 4 )
+
+[sub_resource type="DynamicFontData" id=6]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=7]
+size = 7
+font_data = SubResource( 6 )
+
+[node name="creditos" type="Node2D"]
+pause_mode = 2
+script = ExtResource( 4 )
+
+[node name="SpaceshipsLightMask" type="Sprite" parent="."]
+position = Vector2( 180, -247 )
+rotation = 1.41197
+scale = Vector2( 1.53383, 9.38499 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Planet" type="Sprite" parent="."]
+position = Vector2( 79, 294 )
+rotation = 4.13643
+scale = Vector2( 2, 2 )
+texture = ExtResource( 1 )
+
+[node name="title" type="Label" parent="."]
+margin_left = -2.0
+margin_top = 20.0
+margin_right = 159.0
+margin_bottom = 47.0
+custom_fonts/font = SubResource( 3 )
+text = "Creditos"
+align = 1
+
+[node name="papai game maker" type="Sprite" parent="."]
+position = Vector2( 25, 234 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 5 )
+
+[node name="exit" type="Node2D" parent="."]
+position = Vector2( 57, 381 )
+
+[node name="exit" type="Button" parent="exit"]
+margin_left = -37.0
+margin_top = -123.0
+margin_right = 87.0
+margin_bottom = -53.0
+rect_scale = Vector2( 1, 0.4 )
+flat = true
+
+[node name="Label" type="Label" parent="exit"]
+margin_left = -57.0
+margin_top = -117.0
+margin_right = 103.0
+margin_bottom = -101.0
+custom_fonts/font = SubResource( 10 )
+text = "Obrigado!"
+align = 1
+
+[node name="links" type="Node2D" parent="."]
+
+[node name="LinkButton" type="LinkButton" parent="links"]
+margin_left = 49.0
+margin_top = 227.0
+margin_right = 164.0
+margin_bottom = 241.0
+
+[node name="papai_game_maker" type="Label" parent="links/LinkButton"]
+margin_right = 110.0
+margin_bottom = 12.0
+custom_colors/font_outline_modulate = Color( 1, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 1, 0.027451, 0.027451, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "Papai Game Maker"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LinkButton2" type="LinkButton" parent="links"]
+margin_left = 23.0
+margin_top = 146.0
+margin_right = 133.0
+margin_bottom = 160.0
+focus_mode = 2
+
+[node name="person3" type="Label" parent="links/LinkButton2"]
+margin_left = 2.0
+margin_right = 107.0
+margin_bottom = 14.0
+custom_colors/font_outline_modulate = Color( 0.964706, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
+custom_fonts/font = SubResource( 9 )
+text = "Papai Game Maker"
+align = 1
+valign = 1
+
+[node name="nomes" type="Node2D" parent="."]
+
+[node name="creditos" type="Node2D" parent="."]
+
+[node name="codigo_base" type="Label" parent="creditos"]
+margin_left = -20.0
+margin_top = 156.0
+margin_right = 180.0
+margin_bottom = 221.0
+custom_fonts/font = SubResource( 5 )
+text = "Este jogo foi feito apartir
+de um spin-off do original
+SPACE SHOOTER, o código base
+ pertence à Papai Game Maker"
+align = 1
+valign = 1
+
+[node name="job" type="Label" parent="creditos"]
+margin_left = 29.0
+margin_top = 43.0
+margin_right = 130.0
+margin_bottom = 57.0
+custom_fonts/font = SubResource( 7 )
+text = "Programado por"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="person" type="Label" parent="creditos"]
+margin_left = 27.0
+margin_top = 52.0
+margin_right = 132.0
+margin_bottom = 66.0
+custom_fonts/font = SubResource( 9 )
+text = "Otávio Augustus"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="job2" type="Label" parent="creditos"]
+margin_left = 27.0
+margin_top = 86.0
+margin_right = 128.0
+margin_bottom = 100.0
+custom_fonts/font = SubResource( 7 )
+text = "Testers"
+align = 1
+valign = 1
+
+[node name="person2" type="Label" parent="creditos"]
+margin_left = 27.0
+margin_top = 99.0
+margin_right = 132.0
+margin_bottom = 135.0
+custom_fonts/font = SubResource( 9 )
+text = "Thaila Emanuely
+Vitor Henrique
+Carlos"
+align = 1
+valign = 1
+
+[node name="job3" type="Label" parent="creditos"]
+margin_left = 30.0
+margin_top = 136.0
+margin_right = 131.0
+margin_bottom = 150.0
+custom_fonts/font = SubResource( 7 )
+text = "Ideia original"
+align = 1
+valign = 1
+
+[connection signal="pressed" from="exit/exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="links/LinkButton" to="." method="_on_LinkButton_pressed"]
+[connection signal="pressed" from="links/LinkButton2" to="." method="_on_LinkButton_pressed"]

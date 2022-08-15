@@ -1,0 +1,147 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://sprites/Songs/Picked Coin Echo 2.wav" type="AudioStream" id=1]
+[ext_resource path="res://sprites/asteroids/asteroid-4.png" type="Texture" id=2]
+[ext_resource path="res://sprites/ships/ship.png" type="Texture" id=3]
+[ext_resource path="res://scenes/scripts/splash.gd" type="Script" id=4]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 8
+font_data = SubResource( 1 )
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("asteroids:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Asteroid-3:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "explosao"
+length = 0.25
+loop = true
+step = 0.01
+
+[sub_resource type="Animation" id=6]
+resource_name = "rotacao-splash"
+length = 3.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Asteroid-3:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "rotação"
+length = 3.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("asteroids:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+
+[node name="splash" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="logo" type="Label" parent="."]
+visible = false
+margin_left = 29.0
+margin_top = 135.0
+margin_right = 71.0
+margin_bottom = 149.0
+custom_fonts/font = SubResource( 2 )
+text = "Otávio"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="logo2" type="Label" parent="."]
+visible = false
+margin_left = 87.0
+margin_top = 135.0
+margin_right = 146.0
+margin_bottom = 149.0
+custom_fonts/font = SubResource( 2 )
+text = "Augustus"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mini-ship" type="Sprite" parent="."]
+position = Vector2( 108, 408 )
+scale = Vector2( 1.3, 1.3 )
+texture = ExtResource( 3 )
+hframes = 2
+
+[node name="mini-ship2" type="Sprite" parent="."]
+position = Vector2( 76, -12 )
+rotation = 3.14159
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 3 )
+hframes = 2
+
+[node name="Asteroid-3" type="Sprite" parent="."]
+position = Vector2( 44, -136 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 2 )
+
+[node name="anim" type="AnimationPlayer" parent="."]
+pause_mode = 1
+autoplay = "rotacao-splash"
+playback_speed = 2.0
+anims/RESET = SubResource( 3 )
+anims/explosao = SubResource( 4 )
+anims/rotacao-splash = SubResource( 6 )
+"anims/rotação" = SubResource( 5 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.3
+
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 3.5
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="Timer2" to="." method="_on_Timer2_timeout"]

@@ -1,0 +1,257 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://sprites/Scenario/planet.png" type="Texture" id=1]
+[ext_resource path="res://sprites/galeria/3CDxl1.png" type="Texture" id=2]
+[ext_resource path="res://sprites/ships/ship.png" type="Texture" id=3]
+[ext_resource path="res://scenes/scripts/galeria.gd" type="Script" id=4]
+[ext_resource path="res://sprites/galeria/Captura de Tela (1).png" type="Texture" id=5]
+[ext_resource path="res://sprites/Fonts/GravityBold8.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://sprites/galeria/Captura de Tela (3).png" type="Texture" id=7]
+[ext_resource path="res://sprites/galeria/Captura de Tela (2).png" type="Texture" id=8]
+
+[sub_resource type="DynamicFontData" id=6]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=7]
+size = 7
+font_data = SubResource( 6 )
+
+[sub_resource type="DynamicFontData" id=8]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=9]
+size = 9
+font_data = SubResource( 8 )
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+font_data = SubResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 7
+use_filter = true
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFontData" id=10]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=11]
+size = 13
+font_data = SubResource( 10 )
+
+[sub_resource type="Animation" id=12]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("pointer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "movimento"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("pointer:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[node name="galeria" type="Node2D"]
+pause_mode = 2
+script = ExtResource( 4 )
+
+[node name="3cDxl1" type="Sprite" parent="."]
+position = Vector2( 208, -402 )
+texture = ExtResource( 2 )
+
+[node name="versoes" type="Node2D" parent="."]
+
+[node name="indev1" type="Node2D" parent="versoes"]
+
+[node name="job3" type="Label" parent="versoes/indev1"]
+margin_top = 69.0
+margin_right = 161.0
+margin_bottom = 83.0
+custom_fonts/font = SubResource( 7 )
+text = "InDev 1"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CapturaDeTela(1)" type="Sprite" parent="versoes/indev1"]
+position = Vector2( 77, 113 )
+scale = Vector2( 0.05, 0.05 )
+texture = ExtResource( 5 )
+
+[node name="person3" type="Label" parent="versoes/indev1"]
+margin_left = 41.0
+margin_top = 140.0
+margin_right = 185.0
+margin_bottom = 163.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = SubResource( 9 )
+text = "Nave adicionada
+Meteoros adicionados"
+valign = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="indev2" type="Node2D" parent="versoes"]
+
+[node name="job2" type="Label" parent="versoes/indev2"]
+margin_top = -136.0
+margin_right = 160.0
+margin_bottom = -122.0
+custom_fonts/font = SubResource( 7 )
+text = "InDev 2"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CapturaDeTela(2)" type="Sprite" parent="versoes/indev2"]
+position = Vector2( 80, -95 )
+scale = Vector2( 0.05, 0.05 )
+texture = ExtResource( 8 )
+
+[node name="person2" type="Label" parent="versoes/indev2"]
+margin_left = 44.0
+margin_top = -71.0
+margin_right = 188.0
+margin_bottom = -35.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = SubResource( 9 )
+text = "Animações consertadas
+Lasers adicionados
+"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="beta" type="Node2D" parent="versoes"]
+
+[node name="job2" type="Label" parent="versoes/beta"]
+margin_top = -307.0
+margin_right = 160.0
+margin_bottom = -293.0
+custom_fonts/font = SubResource( 7 )
+text = "BETA"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CapturaDeTela(3)" type="Sprite" parent="versoes/beta"]
+position = Vector2( 80, -266 )
+scale = Vector2( 0.05, 0.05 )
+texture = ExtResource( 7 )
+
+[node name="person2" type="Label" parent="versoes/beta"]
+margin_left = 44.0
+margin_top = -242.0
+margin_right = 188.0
+margin_bottom = -206.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = SubResource( 9 )
+text = "Menus adicionados
+Músicas e sons
+Novo estilo de jogo
+Pontuação refeita
+Efeitos novos
+Cheats?"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Planet" type="Sprite" parent="."]
+position = Vector2( 79, 294 )
+rotation = 4.13643
+scale = Vector2( 2, 2 )
+texture = ExtResource( 1 )
+
+[node name="itens" type="Node2D" parent="."]
+
+[node name="start" type="Node2D" parent="itens"]
+position = Vector2( 5, 263 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Label" type="Label" parent="itens/start"]
+margin_left = 28.0
+margin_top = 10.0
+margin_right = 144.0
+margin_bottom = 26.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = SubResource( 2 )
+text = "Pressione 'ESC'"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="blink_timer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="title" type="Label" parent="."]
+margin_top = 4.0
+margin_right = 161.0
+margin_bottom = 31.0
+custom_fonts/font = SubResource( 3 )
+text = "******* Galeria *******"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="up" type="Label" parent="."]
+margin_left = 118.0
+margin_top = 236.0
+margin_right = 158.0
+margin_bottom = 250.0
+custom_fonts/font = SubResource( 11 )
+text = "UP"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="seta" type="Node2D" parent="."]
+
+[node name="pointer" type="Sprite" parent="seta"]
+position = Vector2( 137, 261 )
+scale = Vector2( 0.4, 0.4 )
+texture = ExtResource( 3 )
+hframes = 2
+
+[node name="anim" type="AnimationPlayer" parent="seta"]
+autoplay = "movimento"
+playback_speed = 4.0
+anims/RESET = SubResource( 12 )
+anims/movimento = SubResource( 13 )
+
+[connection signal="timeout" from="blink_timer" to="." method="_on_blink_timer_timeout"]
