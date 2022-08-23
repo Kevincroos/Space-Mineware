@@ -11,5 +11,5 @@ dest_files=[ "res://.import/export_ofoct.com.ogg-17ee71f22d0d229bff5182ebc0a4776
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/space2.mp3-9883a945fe59f9c5a3750d0da43dd391.mp3str"
+
+[deps]
+
+source_file="res://sprites/Songs/space2.mp3"
+dest_files=[ "res://.import/space2.mp3-9883a945fe59f9c5a3750d0da43dd391.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

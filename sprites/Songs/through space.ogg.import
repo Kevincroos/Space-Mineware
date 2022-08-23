@@ -11,5 +11,5 @@ dest_files=[ "res://.import/through space.ogg-4cfcdaf94611f3b0ef29e1d2a18679fc.o
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

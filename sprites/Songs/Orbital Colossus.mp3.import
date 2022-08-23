@@ -11,5 +11,5 @@ dest_files=[ "res://.import/Orbital Colossus.mp3-2b1af411296dbc11d77366e5ccc94d8
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

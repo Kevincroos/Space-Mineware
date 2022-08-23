@@ -11,5 +11,5 @@ dest_files=[ "res://.import/mixkit-space-game-668.mp3-25f6cca6bd158ba2a1573914cd
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
