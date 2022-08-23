@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.12549, 0.121569, 0.121569, 0.686275 )
+border_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="DynamicFontData" id=2]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=3]
+size = 29
+font_data = SubResource( 2 )
+
+[sub_resource type="DynamicFontData" id=4]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=5]
+size = 39
+font_data = SubResource( 4 )
+
+[node name="ScoreItem" type="Panel"]
+margin_right = 782.0
+margin_bottom = 76.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_min_size = Vector2( 782, 76 )
+custom_styles/panel = SubResource( 1 )
+
+[node name="PlayerName" type="RichTextLabel" parent="."]
+margin_left = 22.0
+margin_top = 18.0
+margin_right = 589.0
+margin_bottom = 73.0
+custom_colors/default_color = Color( 1, 1, 1, 1 )
+custom_fonts/normal_font = SubResource( 3 )
+text = "1. Godzilla"
+
+[node name="Score" type="Label" parent="."]
+margin_left = 358.0
+margin_top = 2.0
+margin_right = 764.0
+margin_bottom = 75.0
+custom_fonts/font = SubResource( 5 )
+text = "13"
+align = 2
+valign = 1
