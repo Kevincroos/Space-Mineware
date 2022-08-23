@@ -119,8 +119,9 @@ focus_mode = 2
 
 [node name="person3" type="Label" parent="links/LinkButton2"]
 margin_left = 2.0
+margin_top = 1.0
 margin_right = 107.0
-margin_bottom = 14.0
+margin_bottom = 15.0
 custom_colors/font_outline_modulate = Color( 0.964706, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
 custom_fonts/font = SubResource( 9 )
@@ -140,8 +141,7 @@ margin_bottom = 221.0
 custom_fonts/font = SubResource( 5 )
 text = "Este jogo foi feito apartir
 de um spin-off do original
-SPACE SHOOTER, o código base
- pertence à Papai Game Maker"
+SPACE SHOOTER"
 align = 1
 valign = 1
 
@@ -160,36 +160,35 @@ __meta__ = {
 
 [node name="person" type="Label" parent="creditos"]
 margin_left = 27.0
-margin_top = 52.0
+margin_top = 54.0
 margin_right = 132.0
-margin_bottom = 66.0
+margin_bottom = 68.0
 custom_fonts/font = SubResource( 9 )
 text = "Otávio Augustus"
 align = 1
 valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="job2" type="Label" parent="creditos"]
 margin_left = 27.0
-margin_top = 86.0
+margin_top = 81.0
 margin_right = 128.0
-margin_bottom = 100.0
+margin_bottom = 95.0
 custom_fonts/font = SubResource( 7 )
 text = "Testers"
 align = 1
 valign = 1
 
 [node name="person2" type="Label" parent="creditos"]
-margin_left = 27.0
-margin_top = 99.0
-margin_right = 132.0
-margin_bottom = 135.0
+margin_left = 40.0
+margin_top = 93.0
+margin_right = 145.0
+margin_bottom = 142.0
+rect_scale = Vector2( 0.7, 0.7 )
 custom_fonts/font = SubResource( 9 )
 text = "Thaila Emanuely
 Vitor Henrique
-Carlos"
+Carlos Henrique
+Thomas Rodrigo"
 align = 1
 valign = 1
 

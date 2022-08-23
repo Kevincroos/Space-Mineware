@@ -4,7 +4,7 @@ var time = 0
 export var scene_to_go = ""
 
 func _ready():
-	MusicController.play_music()
+	pass
 	$Timer.start()
 	$Timer2.start()
 	
@@ -20,10 +20,10 @@ func _process(delta):
 	
 	if $"mini-ship".global_position.y >= -770 && $"Asteroid-3".global_position.y >= 770:
 		$"mini-ship2".global_position.y += 7.5
-	if $"mini-ship2".global_position.y >= 137:
-		$"mini-ship2".global_position.y = 137
+	if $"mini-ship2".global_position.y >= 115:
+		$"mini-ship2".global_position.y = 115
 		
-	if $"mini-ship2".global_position.y >= 137:
+	if $"mini-ship2".global_position.y >= 115:
 		set_process(false)
 		$AudioStreamPlayer.play()
 

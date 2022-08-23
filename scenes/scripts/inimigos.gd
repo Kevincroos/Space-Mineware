@@ -16,7 +16,7 @@ func _on_spawn_timer_timeout():
 	if safe_zone == false && ready == true:
 		var ast = create_asteroid()
 		add_child(ast)
-		ast.global_position = Vector2(rand_range(asteroidZone.global_position.x, asteroidZone.global_position.x/2), -21)
+		ast.global_position = Vector2(rand_range(0, 160), -21)
 		restartTimer()
 
 func restartTimer():

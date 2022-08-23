@@ -1,0 +1,47 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+render_mode blend_add;
+
+uniform float pixel_size = 0.03;
+
+uniform float intensity = 1.18f;
+uniform float layers = 5f;
+uniform float speed = 0.3f;
+uniform float size = 0.4f;
+
+float gradient(vec2 uv){
+    return (size - distance(vec2(uv.x, uv.y), vec2(0.5f, 0.5f))); 
+}
+
+vec4 colorize(float c, float a){
+    vec4 pallete;
+    pallete = vec4(c,c,c,a);
+    pallete.r = float(c >= 1f);
+    pallete.a = c;
+    return pallete;
+}
+
+void fragment(){
+	
+    vec2 uv = UV - TIME * speed;
+    uv -= mod(uv, vec2(pixel_size, pixel_size));
+    vec4 bg = textureLod(TEXTURE, uv, 0.0);
+    
+    COLOR.r = gradient(UV);
+    COLOR.r = clamp(COLOR.r * bg.r * intensity * 10f, 0f, 1f);
+    COLOR.r = floor(COLOR.r * layers) / layers;
+    COLOR.a = float(COLOR.r > 0f);
+    COLOR = colorize(COLOR.r, COLOR.a);
+	
+}"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/pixel_size = 0.03
+shader_param/intensity = 1.18
+shader_param/layers = 80.0
+shader_param/speed = 2.0
+shader_param/size = 0.5

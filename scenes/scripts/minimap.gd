@@ -68,8 +68,8 @@ func _process(delta):
 		$danger.visible = false
 	
 func danger_zone():
-	$spawn_timer.wait_time = rand_range(.1, .4)
-	$spawn_timer.start()
+		$spawn_timer.wait_time = rand_range(.1, .4)
+		$spawn_timer.start()
 
 func safe_zone():
 	$safe_zone.visible = true
@@ -91,3 +91,7 @@ func blink():
 
 func _on_anim_animation_finished(new_zone):
 	pass
+
+
+func _on_dangerZone_timeout():
+	danger_zone()

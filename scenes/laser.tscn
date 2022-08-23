@@ -99,7 +99,6 @@ anims/faiscas = SubResource( 5 )
 
 [node name="blaster" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
-bus = "explosion"
 
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="area_entered" from="area" to="." method="_on_area_area_entered"]

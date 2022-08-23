@@ -1,16 +1,9 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://sprites/Songs/Picked Coin Echo 2.wav" type="AudioStream" id=1]
+[ext_resource path="res://sprites/Songs/Picked Coin Echo.wav" type="AudioStream" id=1]
 [ext_resource path="res://sprites/asteroids/asteroid-4.png" type="Texture" id=2]
 [ext_resource path="res://sprites/ships/ship.png" type="Texture" id=3]
 [ext_resource path="res://scenes/scripts/splash.gd" type="Script" id=4]
-
-[sub_resource type="DynamicFontData" id=1]
-font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
-
-[sub_resource type="DynamicFont" id=2]
-size = 8
-font_data = SubResource( 1 )
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -79,33 +72,25 @@ tracks/0/keys = {
 "values": [ 0.0, 360.0 ]
 }
 
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 8
+font_data = SubResource( 1 )
+
 [node name="splash" type="Node2D"]
+position = Vector2( 0, -22 )
 script = ExtResource( 4 )
 
-[node name="logo" type="Label" parent="."]
-visible = false
-margin_left = 29.0
-margin_top = 135.0
-margin_right = 71.0
-margin_bottom = 149.0
-custom_fonts/font = SubResource( 2 )
-text = "Otávio"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.3
 
-[node name="logo2" type="Label" parent="."]
-visible = false
-margin_left = 87.0
-margin_top = 135.0
-margin_right = 146.0
-margin_bottom = 149.0
-custom_fonts/font = SubResource( 2 )
-text = "Augustus"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 3.5
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
 
 [node name="mini-ship" type="Sprite" parent="."]
 position = Vector2( 108, 408 )
@@ -134,14 +119,30 @@ anims/explosao = SubResource( 4 )
 anims/rotacao-splash = SubResource( 6 )
 "anims/rotação" = SubResource( 5 )
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.3
+[node name="logo" type="Label" parent="."]
+visible = false
+margin_left = 29.0
+margin_top = 135.0
+margin_right = 71.0
+margin_bottom = 149.0
+custom_fonts/font = SubResource( 2 )
+text = "Otávio"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Timer2" type="Timer" parent="."]
-wait_time = 3.5
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 1 )
+[node name="logo2" type="Label" parent="."]
+visible = false
+margin_left = 87.0
+margin_top = 135.0
+margin_right = 146.0
+margin_bottom = 149.0
+custom_fonts/font = SubResource( 2 )
+text = "Augustus"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="Timer2" to="." method="_on_Timer2_timeout"]

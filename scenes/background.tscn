@@ -1,0 +1,84 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://sprites/Scenario/planet.png" type="Texture" id=2]
+[ext_resource path="res://scenes/scripts/camera-menu.gd" type="Script" id=3]
+[ext_resource path="res://sprites/galeria/3CDxl1.png" type="Texture" id=5]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("../splash_text:custom_fonts/font:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 8 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../splash_text:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("menu/splash_text:rect_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "splash"
+length = 0.9
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("menu/splash_text:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 0.5 ), Vector2( 0.8, 0.8 ), Vector2( 0.5, 0.5 ) ]
+}
+
+[node name="background" type="Node2D"]
+
+[node name="background" type="Sprite" parent="."]
+position = Vector2( 61, 84 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 5 )
+
+[node name="Planet" type="Sprite" parent="."]
+position = Vector2( 80, 116 )
+texture = ExtResource( 2 )
+
+[node name="anim" type="AnimationPlayer" parent="."]
+autoplay = "splash"
+playback_speed = 1.7
+anims/RESET = SubResource( 1 )
+anims/splash = SubResource( 2 )
+
+[node name="camera" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+script = ExtResource( 3 )

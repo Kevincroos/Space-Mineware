@@ -385,7 +385,7 @@ margin_top = 199.0
 margin_right = 129.0
 margin_bottom = 213.0
 custom_fonts/font = SubResource( 43 )
-text = "Not logged, how??"
+text = "Not logged (how??)"
 
 [node name="scoreboard" type="Node2D" parent="menu"]
 pause_mode = 2

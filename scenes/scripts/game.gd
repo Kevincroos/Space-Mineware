@@ -12,20 +12,24 @@ const LOAD_LASER = preload("res://scenes/laser.tscn")
 const LOAD_LASER2 = preload("res://scenes/laser.tscn")
 
 func _ready():
+	
 	#SilentWolf.Scores.wipe_leaderboard()
 	if lasers:
 		lasers = get_node(lasers)
 	else:
 		lasers = get_parent()
 	MusicController.stop()
+	MusicController.start()
 	name = SaveFile.loadGame()
 	global.set_player_name(name)
 
 func end():
 	if $"HUD/minimap/mini-ship".global_position.y <= 92:
 		c.safe_zone = true
+		$HUD/minimap/marketplace.visible = true
 	else:
 		c.safe_zone = false
+		$HUD/minimap/marketplace.visible = false
 
 func _process(delta):
 	
@@ -43,6 +47,11 @@ func _process(delta):
 	cheats()
 	
 	if $ship.hp_ship <= 0:
+		$HUD/bonus.visible = false
+		$Button.disabled = true
+		$Background.pause_mode = Node.PAUSE_MODE_PROCESS
+		$ship/dead_area.monitoring = false
+		$ship.set_process(false)
 		emit_signal("morte", self)
 		$ship/hp/hp.text = "Game Over"
 		$ship/morte.z_index = 0
@@ -65,6 +74,7 @@ func _process(delta):
 	
 	if Input.is_action_pressed("ui_cancel"):
 		$HUD/goBack.visible = true
+		get_tree().paused = true
 		
 	if $ship.hp_ship > 0:
 		if $HUD/minimap.tempo <= 0 && $"HUD/minimap/mini-ship".global_position.y >= 0:
@@ -75,6 +85,7 @@ func _process(delta):
 			$HUD/recarga/sprite.visible = false
 
 		if $Planet.global_position.y >= 400:
+			$HUD.bonus += 1
 			$"HUD/minimap/mini-ship".global_position.y = 240
 			$Planet.global_position.y = -507
 
@@ -82,11 +93,9 @@ func _on_anim_animation_finished(morte):
 	$ship/morte.visible = false
 
 func _on_enviar_pressed():
-	$HUD/minimap.tempo = -1
+	$HUD/ready/Timer.start()
 	$HUD/ready.visible = false
-	$cenario/inimigos.ready = true
-	$HUD/minimap/distance/clock.start()
-	$HUD/tutorial.visible = false
+	$HUD/ready/AnimationPlayer.play('tutorial')
 	$HUD/minimap/marketplace/hp.disabled = false
 	$HUD/minimap/marketplace/speed.disabled = false
 	$HUD/minimap/marketplace/laser.disabled = false
@@ -97,9 +106,6 @@ func _on_scores_pressed():
 	MusicController.play_music()
 	SilentWolf.Scores.persist_score(global.player_name, $HUD.score)
 	SilentWolf.Scores.get_high_scores()
-	
-#	SilentWolf.Scores.persist_score(global.player_name, x)
-#	SilentWolf.Scores.get_high_scores()
 	yield(get_tree().create_timer(.7), 'timeout')
 	scene_to_go = "res://addons/silent_wolf/Scores/Leaderboard.tscn"
 	Transition.fade(scene_to_go)
@@ -131,6 +137,7 @@ func gunUpdate():
 
 func hpPlus():
 	$ship.hp_ship += 10
+	$ship/hp/hp.text = str($ship.hp_ship)
 	$HUD/minimap/marketplace/hp.disabled = true
 
 func speed():
@@ -143,8 +150,7 @@ func _on_speed_pressed():
 
 func cheats():
 	if Input.is_action_pressed("x"):
-		$HUD/minimap/AudioStreamPlayer.stream_paused = true
-		$HUD/music.visible = true
+		pass
 	if Input.is_action_pressed("1"):
 		$ship/Spaceships.visible = true
 		$ship/Ship.visible = false
@@ -154,14 +160,16 @@ func cheats():
 			$ship/Ship.visible = true
 			$ship/Spaceships.frame = 0
 	if Input.is_action_pressed("z"):
-		$HUD/minimap/AudioStreamPlayer.stream_paused = false
-		$HUD/music.visible = false
+		pass
 	if Input.is_action_pressed("T"):
 		$ship/shield.visible = true
 
 func _on_yes_pressed():
+	SilentWolf.Scores.persist_score(global.player_name, $HUD.score)
+	SilentWolf.Scores.get_high_scores()
 	scene_to_go = "res://scenes/main-menu.tscn"
 	Transition.fade(scene_to_go)
+	get_tree().paused = false
 
 func _on_no_pressed():
 	get_tree().paused = false
@@ -207,13 +215,28 @@ func _on_fire_pressed():
 
 
 func _on_enviar2_pressed():
-	$HUD/minimap.tempo = -1
+	$HUD/ready/Timer.start()
 	$HUD/ready.visible = false
-	$cenario/inimigos.ready = true
-	$HUD/minimap/distance/clock.start()
-	$HUD/tutorial.visible = false
+	$HUD/ready/AnimationPlayer.play('tutorial')
 	$HUD/minimap/marketplace/hp.disabled = false
 	$HUD/minimap/marketplace/speed.disabled = false
 	$HUD/minimap/marketplace/laser.disabled = false
 	$HUD/minimap/marketplace/friend.disabled = false
 	$HUD/minimap.ready = true
+	$HUD/ready/AnimationPlayer.play('tutorial')
+
+
+func _on_Timer_timeout():
+	$HUD/ready/Timer.stop()
+	$HUD/minimap.tempo = -1
+	$cenario/inimigos.ready = true
+	$HUD/minimap/distance/clock.start()
+
+
+func _on_Button_pressed():
+	pass # Replace with function body.
+
+
+func _on_pause_pressed():
+		$HUD/goBack.visible = true
+		get_tree().paused = true

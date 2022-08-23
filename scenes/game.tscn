@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=2]
+[gd_scene load_steps=84 format=2]
 
 [ext_resource path="res://sprites/HUD/cristais.png" type="Texture" id=1]
 [ext_resource path="res://scenes/scripts/ship.gd" type="Script" id=2]
@@ -7,7 +7,7 @@
 [ext_resource path="res://scenes/scripts/camera.gd" type="Script" id=5]
 [ext_resource path="res://scenes/scripts/inimigos.gd" type="Script" id=6]
 [ext_resource path="res://scenes/scripts/lasers.gd" type="Script" id=7]
-[ext_resource path="res://sprites/Songs/mixkit-space-game-668.mp3" type="AudioStream" id=8]
+[ext_resource path="res://scenes/game.tres" type="Texture" id=8]
 [ext_resource path="res://scenes/scripts/minimap.gd" type="Script" id=9]
 [ext_resource path="res://sprites/Fonts/GravityBold8.ttf" type="DynamicFontData" id=10]
 [ext_resource path="res://scenes/scripts/game.gd" type="Script" id=11]
@@ -17,10 +17,10 @@
 [ext_resource path="res://sprites/HUD/missel.png" type="Texture" id=15]
 [ext_resource path="res://sprites/Scenario/planet.png" type="Texture" id=16]
 [ext_resource path="res://sprites/HUD/Fuel_Bar.png" type="Texture" id=17]
-[ext_resource path="res://sprites/Songs/Orbital Colossus.mp3" type="AudioStream" id=18]
-[ext_resource path="res://sprites/Songs/export_ofoct.com.ogg" type="AudioStream" id=19]
+[ext_resource path="res://scenes/game2.tres" type="Material" id=18]
+[ext_resource path="res://sprites/HUD/controllerTilt.png" type="Texture" id=19]
 [ext_resource path="res://sprites/HUD/tile006.png" type="Texture" id=20]
-[ext_resource path="res://sprites/HUD/Radar_Frame.png" type="Texture" id=21]
+[ext_resource path="res://sprites/asteroids/asteroid-1.png" type="Texture" id=21]
 [ext_resource path="res://sprites/HUD/tile004.png" type="Texture" id=22]
 [ext_resource path="res://sprites/HUD/tile003.png" type="Texture" id=23]
 [ext_resource path="res://sprites/ships/Spaceships.png" type="Texture" id=24]
@@ -35,7 +35,8 @@
 [ext_resource path="res://sprites/Songs/bing1.wav" type="AudioStream" id=33]
 [ext_resource path="res://sprites/Effects/explosion-1.png" type="Texture" id=34]
 [ext_resource path="res://sprites/HUD/tile005.png" type="Texture" id=35]
-[ext_resource path="res://sprites/Buttons/button-jump.png" type="Texture" id=36]
+[ext_resource path="res://sprites/asteroids/asteroid-2.png" type="Texture" id=36]
+[ext_resource path="res://sprites/HUD/cursor.png" type="Texture" id=37]
 
 [sub_resource type="Shader" id=3]
 code = "// NOTE: Shader automatically converted from Godot Engine 3.4.2.stable's CanvasItemMaterial.
@@ -58,66 +59,6 @@ shader_param/time = 10.0
 
 [sub_resource type="CircleShape2D" id=12]
 radius = 14.0
-
-[sub_resource type="Shader" id=1]
-code = "shader_type canvas_item;
-
-render_mode blend_add;
-
-uniform float pixel_size = 0.03;
-
-uniform float intensity = 1.18f;
-uniform float layers = 5f;
-uniform float speed = 0.3f;
-uniform float size = 0.4f;
-
-float gradient(vec2 uv){
-    return (size - distance(vec2(uv.x, uv.y), vec2(0.5f, 0.5f))); 
-}
-
-vec4 colorize(float c, float a){
-    vec4 pallete;
-    pallete = vec4(c,c,c,a);
-    pallete.r = float(c >= 1f);
-    pallete.a = c;
-    return pallete;
-}
-
-void fragment(){
-	
-    vec2 uv = UV - TIME * speed;
-    uv -= mod(uv, vec2(pixel_size, pixel_size));
-    vec4 bg = textureLod(TEXTURE, uv, 0.0);
-    
-    COLOR.r = gradient(UV);
-    COLOR.r = clamp(COLOR.r * bg.r * intensity * 10f, 0f, 1f);
-    COLOR.r = floor(COLOR.r * layers) / layers;
-    COLOR.a = float(COLOR.r > 0f);
-    COLOR = colorize(COLOR.r, COLOR.a);
-	
-}"
-
-[sub_resource type="ShaderMaterial" id=51]
-shader = SubResource( 1 )
-shader_param/pixel_size = 0.03
-shader_param/intensity = 1.18
-shader_param/layers = 80.0
-shader_param/speed = 2.0
-shader_param/size = 0.5
-
-[sub_resource type="OpenSimplexNoise" id=52]
-seed = 21
-octaves = 1
-period = 85.4
-persistence = 0.433
-
-[sub_resource type="NoiseTexture" id=53]
-width = 80
-height = 80
-seamless = true
-as_normalmap = true
-bump_strength = 32.0
-noise = SubResource( 52 )
 
 [sub_resource type="Animation" id=54]
 length = 0.001
@@ -183,6 +124,44 @@ tracks/0/keys = {
 [sub_resource type="DynamicFont" id=6]
 size = 12
 font_data = ExtResource( 10 )
+
+[sub_resource type="Animation" id=58]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("bonus:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.8, 0.8 ) ]
+}
+
+[sub_resource type="Animation" id=59]
+resource_name = "bonus"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("bonus:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.8, 0.8 ), Vector2( 0.9, 0.9 ), Vector2( 0.8, 0.8 ) ]
+}
+
+[sub_resource type="DynamicFontData" id=17]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=18]
+size = 13
+font_data = SubResource( 17 )
 
 [sub_resource type="DynamicFontData" id=13]
 font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
@@ -260,6 +239,13 @@ tracks/1/keys = {
 "values": [ Vector2( 0, 44 ), Vector2( 0, 56 ), Vector2( 0, 56 ) ]
 }
 
+[sub_resource type="DynamicFontData" id=45]
+font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
+
+[sub_resource type="DynamicFont" id=46]
+size = 6
+font_data = SubResource( 45 )
+
 [sub_resource type="DynamicFontData" id=41]
 font_path = "res://sprites/Fonts/GravityBold8.ttf"
 
@@ -280,13 +266,6 @@ font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
 [sub_resource type="DynamicFont" id=24]
 size = 5
 font_data = SubResource( 23 )
-
-[sub_resource type="DynamicFontData" id=17]
-font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
-
-[sub_resource type="DynamicFont" id=18]
-size = 13
-font_data = SubResource( 17 )
 
 [sub_resource type="DynamicFontData" id=19]
 font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
@@ -314,13 +293,6 @@ tracks/0/keys = {
 "values": [ Color( 0.926797, 0.111111, 0.111111, 1 ), Color( 1, 0.607843, 0, 1 ), Color( 1, 0.92549, 0.12549, 1 ), Color( 0.290196, 1, 0, 1 ), Color( 0, 1, 0.976471, 1 ), Color( 0, 0.109804, 1, 1 ), Color( 0.454902, 0, 1, 1 ), Color( 1, 0, 0.960784, 1 ), Color( 1, 0, 0.494118, 1 ), Color( 1, 0, 0, 1 ) ]
 }
 
-[sub_resource type="DynamicFontData" id=45]
-font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
-
-[sub_resource type="DynamicFont" id=46]
-size = 6
-font_data = SubResource( 45 )
-
 [sub_resource type="DynamicFontData" id=5]
 font_path = "res://sprites/Fonts/GravityBold8.ttf"
 
@@ -332,9 +304,63 @@ font_data = SubResource( 5 )
 font_path = "res://sprites/Fonts/F77MinecraftRegular-0VYv.ttf"
 
 [sub_resource type="DynamicFont" id=30]
-outline_size = 1
-outline_color = Color( 0.345098, 0.345098, 0.345098, 1 )
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 29 )
+
+[sub_resource type="StyleBoxFlat" id=55]
+bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="Animation" id=56]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("../tutorial:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../tutorial:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=57]
+resource_name = "tutorial"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("../tutorial:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3, 4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="DynamicFontData" id=44]
 font_path = "res://sprites/Fonts/GravityBold8.ttf"
@@ -383,7 +409,15 @@ tracks/0/keys = {
 "values": [ Color( 1, 0, 0, 1 ), Color( 1, 0.494118, 0, 1 ), Color( 1, 0.772549, 0, 1 ), Color( 0.243137, 1, 0, 1 ), Color( 0, 1, 0.811765, 1 ), Color( 0, 0.133333, 1, 1 ), Color( 0.709804, 0, 1, 1 ), Color( 1, 0, 0.584314, 1 ), Color( 1, 0, 0, 1 ) ]
 }
 
+[sub_resource type="DynamicFontData" id=60]
+font_path = "res://sprites/Fonts/GravityBold8.ttf"
+
+[sub_resource type="DynamicFont" id=61]
+size = 5
+font_data = SubResource( 60 )
+
 [node name="game" type="Node2D"]
+pause_mode = 2
 script = ExtResource( 11 )
 __meta__ = {
 "_edit_horizontal_guides_": [ -152.0 ]
@@ -395,6 +429,7 @@ current = true
 script = ExtResource( 5 )
 
 [node name="Background" type="Sprite" parent="."]
+pause_mode = 1
 material = SubResource( 4 )
 position = Vector2( -51, -84 )
 scale = Vector2( 1.6, 1.6 )
@@ -404,12 +439,14 @@ script = ExtResource( 4 )
 nave = NodePath("../ship")
 
 [node name="Planet" type="Sprite" parent="."]
+pause_mode = 1
 position = Vector2( 103, -507 )
 scale = Vector2( 1.7, 1.7 )
 texture = ExtResource( 16 )
 script = ExtResource( 4 )
 
 [node name="ship" type="Node2D" parent="." groups=["player"]]
+pause_mode = 1
 position = Vector2( 80, 169 )
 script = ExtResource( 2 )
 vel = 50.0
@@ -424,12 +461,13 @@ shape = SubResource( 12 )
 
 [node name="Ship" type="Sprite" parent="ship"]
 scale = Vector2( 0.7, 0.7 )
+z_index = 1
 texture = ExtResource( 3 )
 hframes = 2
 
 [node name="shield" parent="ship" instance=ExtResource( 13 )]
 visible = false
-scale = Vector2( 0.967493, 1.04754 )
+scale = Vector2( 0.967, 1.048 )
 
 [node name="Sprite" parent="ship/shield" index="0"]
 position = Vector2( -5.29382, 13.0206 )
@@ -437,11 +475,11 @@ rotation = 1.5708
 scale = Vector2( 0.213288, 0.109013 )
 
 [node name="Sprite2" type="Sprite" parent="ship/shield"]
-material = SubResource( 51 )
+material = ExtResource( 18 )
 position = Vector2( 5.83508, 13.0203 )
 rotation = 1.5708
 scale = Vector2( 0.213, 0.101336 )
-texture = SubResource( 53 )
+texture = ExtResource( 8 )
 
 [node name="anim" type="AnimationPlayer" parent="ship"]
 pause_mode = 2
@@ -506,6 +544,7 @@ texture = ExtResource( 34 )
 hframes = 8
 
 [node name="cenario" type="Node2D" parent="."]
+pause_mode = 1
 script = ExtResource( 7 )
 nave = NodePath("../ship")
 
@@ -515,7 +554,27 @@ script = ExtResource( 6 )
 [node name="spawn_timer" type="Timer" parent="cenario/inimigos"]
 
 [node name="HUD" type="CanvasLayer" parent="." groups=["hud"]]
+pause_mode = 1
 script = ExtResource( 12 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HUD"]
+playback_speed = 2.0
+anims/RESET = SubResource( 58 )
+anims/bonus = SubResource( 59 )
+
+[node name="bonus" type="Label" parent="HUD"]
+visible = false
+margin_left = 88.0
+margin_top = 18.0
+margin_right = 153.0
+margin_bottom = 32.0
+rect_rotation = 19.8
+rect_scale = Vector2( 0.8, 0.8 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
+custom_fonts/font = SubResource( 18 )
+text = "2X"
+align = 1
 
 [node name="danger_bar_zone" type="Sprite" parent="HUD"]
 position = Vector2( 143, 110.748 )
@@ -620,11 +679,13 @@ __meta__ = {
 
 [node name="stop_safe" type="Label" parent="HUD/minimap"]
 visible = false
-margin_top = 254.0
+margin_top = 226.0
 margin_right = 160.0
-margin_bottom = 259.0
+margin_bottom = 247.0
 custom_fonts/font = SubResource( 22 )
-text = "Renovando power ups..."
+text = "Você pode usar seus poderes agora
+ou ganhar um bônus de pontuação por
+não usar-los!"
 align = 1
 valign = 1
 
@@ -644,20 +705,8 @@ playback_speed = 3.0
 anims/RESET = SubResource( 49 )
 anims/new_zone = SubResource( 50 )
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="HUD/minimap"]
-stream = ExtResource( 8 )
-autoplay = true
-mix_target = 2
-
-[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="HUD/minimap"]
-stream = ExtResource( 18 )
-mix_target = 2
-
-[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="HUD/minimap"]
-stream = ExtResource( 19 )
-mix_target = 2
-
 [node name="marketplace" type="Node2D" parent="HUD/minimap"]
+visible = false
 position = Vector2( 180, 174 )
 
 [node name="speed" type="Button" parent="HUD/minimap/marketplace"]
@@ -704,6 +753,14 @@ icon = ExtResource( 35 )
 flat = true
 expand_icon = true
 
+[node name="inventory" type="Label" parent="HUD/minimap/marketplace"]
+margin_left = -120.0
+margin_top = 84.0
+margin_right = -78.0
+margin_bottom = 98.0
+custom_fonts/font = SubResource( 46 )
+text = "inventário"
+
 [node name="distance" type="Node2D" parent="HUD/minimap"]
 position = Vector2( 124, 72 )
 __meta__ = {
@@ -742,6 +799,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="map_info2" type="Label" parent="HUD/tutorial"]
+margin_left = 48.1429
+margin_top = 25.1429
+margin_right = 207.143
+margin_bottom = 50.1429
+rect_scale = Vector2( 0.8, 0.8 )
+custom_fonts/font = SubResource( 16 )
+text = "Use + e - para controlar o
+volume da música"
+align = 1
+
 [node name="hp_info" type="Label" parent="HUD/tutorial"]
 margin_left = 34.0
 margin_top = 211.143
@@ -750,9 +818,6 @@ margin_bottom = 229.143
 custom_fonts/font = SubResource( 16 )
 text = "HP"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="score_info" type="Label" parent="HUD/tutorial"]
 margin_left = -21.4286
@@ -846,9 +911,6 @@ text = "A W S D
 ou
 ⬅⬇⬆➡"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label5" type="Label" parent="HUD/tutorial"]
 margin_left = 92.8571
@@ -868,149 +930,162 @@ playback_speed = 0.8
 anims/RESET = SubResource( 33 )
 anims/pontuacao = SubResource( 34 )
 
-[node name="inventory" type="Label" parent="HUD"]
-margin_left = 60.0
-margin_top = 258.0
-margin_right = 102.0
-margin_bottom = 272.0
-custom_fonts/font = SubResource( 46 )
-text = "inventário"
-
 [node name="goBack" type="Node2D" parent="HUD"]
-pause_mode = 1
+pause_mode = 2
 visible = false
+position = Vector2( 5, 0 )
+z_index = 3
 
 [node name="RadarFrame" type="Sprite" parent="HUD/goBack"]
 position = Vector2( 82, 120 )
 scale = Vector2( 0.553571, 0.995115 )
-texture = ExtResource( 21 )
 
 [node name="Label" type="Label" parent="HUD/goBack"]
-margin_left = 62.0
+margin_left = 1.0
 margin_top = 93.0
-margin_right = 104.0
+margin_right = 160.0
 margin_bottom = 103.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 28 )
-text = "Sair?"
+text = "Jogo pausado"
+align = 1
+
+[node name="Label2" type="Label" parent="HUD/goBack"]
+margin_left = 24.0
+margin_top = 107.0
+margin_right = 246.0
+margin_bottom = 117.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 28 )
+text = "Continuar jogando?"
 align = 1
 
 [node name="yes" type="Button" parent="HUD/goBack"]
-pause_mode = 1
-margin_left = 70.0
-margin_top = 109.0
-margin_right = 121.0
-margin_bottom = 133.0
+pause_mode = 2
+margin_left = 64.0
+margin_top = 122.0
+margin_right = 115.0
+margin_bottom = 146.0
 rect_scale = Vector2( 0.5, 0.5 )
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+custom_colors/font_color_focus = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 30 )
-text = "Sim"
+text = "No"
 flat = true
 
 [node name="no" type="Button" parent="HUD/goBack"]
-pause_mode = 1
-margin_left = 70.0
-margin_top = 127.0
-margin_right = 121.0
-margin_bottom = 151.0
+pause_mode = 2
+margin_left = 64.0
+margin_top = 143.0
+margin_right = 115.0
+margin_bottom = 167.0
 rect_scale = Vector2( 0.5, 0.5 )
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+custom_colors/font_color_focus = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 30 )
-text = "Não"
+text = "Yes"
 flat = true
 
-[node name="buttons" type="Node2D" parent="HUD"]
-visible = false
+[node name="Asteroid-1" type="Sprite" parent="HUD/goBack"]
+position = Vector2( 19.5, 78 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 21 )
 
-[node name="up" type="Button" parent="HUD/buttons"]
-visible = false
-margin_left = 18.0
-margin_top = 222.0
-margin_right = 71.0
-margin_bottom = 268.0
-rect_scale = Vector2( 0.5, 0.5 )
-icon = ExtResource( 36 )
-flat = true
-
-[node name="down" type="Button" parent="HUD/buttons"]
-visible = false
-margin_left = 44.0
-margin_top = 279.0
-margin_right = 97.0
-margin_bottom = 325.0
-rect_rotation = 180.0
-rect_scale = Vector2( 0.5, 0.5 )
-icon = ExtResource( 36 )
-flat = true
-
-[node name="right" type="Button" parent="HUD/buttons"]
-visible = false
-margin_left = 60.0
-margin_top = 238.0
-margin_right = 113.0
-margin_bottom = 284.0
-rect_rotation = 90.0
-rect_scale = Vector2( 0.5, 0.5 )
-icon = ExtResource( 36 )
-flat = true
-
-[node name="left" type="Button" parent="HUD/buttons"]
-visible = false
-margin_left = 2.0
-margin_top = 264.0
-margin_right = 55.0
-margin_bottom = 310.0
-rect_rotation = 270.0
-rect_scale = Vector2( 0.5, 0.5 )
-icon = ExtResource( 36 )
-flat = true
-
-[node name="fire" type="Button" parent="HUD/buttons"]
-margin_left = 4.0
-margin_top = 260.0
-margin_right = 40.0
-margin_bottom = 282.0
-icon = ExtResource( 15 )
+[node name="Asteroid-2" type="Sprite" parent="HUD/goBack"]
+position = Vector2( 134.5, 149 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 36 )
 
 [node name="ready" type="Node2D" parent="HUD"]
 pause_mode = 2
-position = Vector2( 0, -9 )
+self_modulate = Color( 0, 0, 0, 1 )
+position = Vector2( 0, -40 )
+
+[node name="PanelContainer" type="PanelContainer" parent="HUD/ready"]
+margin_left = 23.0
+margin_top = 144.0
+margin_right = 131.0
+margin_bottom = 235.0
+custom_styles/panel = SubResource( 55 )
 
 [node name="enviar" type="Button" parent="HUD/ready"]
-margin_left = 54.0
+margin_left = 39.0
 margin_top = 160.0
-margin_right = 178.0
-margin_bottom = 230.0
-rect_scale = Vector2( 0.4, 0.4 )
-icon = ExtResource( 21 )
-flat = true
-
-[node name="label" type="Label" parent="HUD/ready"]
-margin_left = 54.0
-margin_top = 161.0
-margin_right = 105.0
-margin_bottom = 187.0
-custom_fonts/font = SubResource( 32 )
-text = "Entendi"
-align = 1
-valign = 1
+margin_right = 151.0
+margin_bottom = 266.0
+rect_scale = Vector2( 0.2, 0.2 )
+icon = ExtResource( 19 )
 
 [node name="enviar2" type="Button" parent="HUD/ready"]
-margin_left = 56.0
-margin_top = 187.0
-margin_right = 101.0
-margin_bottom = 207.0
+margin_left = 39.0
+margin_top = 192.0
+margin_right = 151.0
+margin_bottom = 298.0
+rect_scale = Vector2( 0.2, 0.2 )
+icon = ExtResource( 37 )
 
-[node name="label2" type="Label" parent="HUD/ready"]
-margin_left = 60.0
-margin_top = 190.0
-margin_right = 154.0
-margin_bottom = 225.0
-rect_scale = Vector2( 0.4, 0.4 )
-custom_fonts/font = SubResource( 32 )
-text = "Jogar com o mouse"
+[node name="Label4" type="Label" parent="HUD/ready"]
+margin_left = 63.0
+margin_top = 170.0
+margin_right = 128.0
+margin_bottom = 184.0
+rect_scale = Vector2( 0.8, 0.8 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
+custom_fonts/font = SubResource( 18 )
+text = "Teclado"
 align = 1
-valign = 1
+
+[node name="Label6" type="Label" parent="HUD/ready"]
+margin_left = 63.0
+margin_top = 161.0
+margin_right = 128.0
+margin_bottom = 175.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
+custom_fonts/font = SubResource( 18 )
+text = "Jogar com o"
+align = 1
+
+[node name="Label7" type="Label" parent="HUD/ready"]
+margin_left = 63.0
+margin_top = 194.0
+margin_right = 163.0
+margin_bottom = 208.0
+rect_scale = Vector2( 0.5, 0.5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
+custom_fonts/font = SubResource( 18 )
+text = "Jogar com o"
+align = 1
+
+[node name="Label5" type="Label" parent="HUD/ready"]
+margin_left = 59.0
+margin_top = 202.0
+margin_right = 124.0
+margin_bottom = 216.0
+rect_scale = Vector2( 0.8, 0.8 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
+custom_fonts/font = SubResource( 18 )
+text = "Mouse"
+align = 1
+
+[node name="Timer" type="Timer" parent="HUD/ready"]
+wait_time = 2.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HUD/ready"]
+anims/RESET = SubResource( 56 )
+anims/tutorial = SubResource( 57 )
 
 [node name="morte" type="Node2D" parent="HUD"]
+pause_mode = 2
 visible = false
 z_index = 5
 
@@ -1020,7 +1095,6 @@ margin_top = 185.0
 margin_right = 219.0
 margin_bottom = 255.0
 rect_scale = Vector2( 0.5, 0.5 )
-icon = ExtResource( 21 )
 flat = true
 
 [node name="sair" type="Button" parent="HUD/morte"]
@@ -1029,7 +1103,6 @@ margin_top = 150.0
 margin_right = 176.0
 margin_bottom = 220.0
 rect_scale = Vector2( 0.5, 0.5 )
-icon = ExtResource( 21 )
 flat = true
 
 [node name="scores" type="Button" parent="HUD/morte"]
@@ -1038,7 +1111,6 @@ margin_top = 185.0
 margin_right = 128.0
 margin_bottom = 255.0
 rect_scale = Vector2( 0.5, 0.5 )
-icon = ExtResource( 21 )
 flat = true
 
 [node name="scores2" type="Label" parent="HUD/morte"]
@@ -1046,6 +1118,13 @@ margin_left = 8.0
 margin_top = 187.0
 margin_right = 62.0
 margin_bottom = 217.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 1, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 1, 0.952941, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 0
+custom_constants/shadow_as_outline = 0
 custom_fonts/font = SubResource( 32 )
 text = "Scores"
 align = 1
@@ -1056,6 +1135,13 @@ margin_left = 56.0
 margin_top = 152.0
 margin_right = 110.0
 margin_bottom = 182.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 1, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0.486275, 0, 1, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 0
+custom_constants/shadow_as_outline = 0
 custom_fonts/font = SubResource( 32 )
 text = "Menus"
 align = 1
@@ -1066,6 +1152,13 @@ margin_left = 98.0
 margin_top = 187.0
 margin_right = 152.0
 margin_bottom = 217.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 1, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 0
+custom_constants/shadow_as_outline = 0
 custom_fonts/font = SubResource( 32 )
 text = "Reiniciar"
 align = 1
@@ -1075,6 +1168,13 @@ valign = 1
 margin_top = 108.0
 margin_right = 161.0
 margin_bottom = 135.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 1, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0.12549, 1, 0, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/line_spacing = 0
+custom_constants/shadow_offset_y = 0
+custom_constants/shadow_as_outline = 0
 custom_fonts/font = SubResource( 6 )
 text = "Final score:"
 align = 1
@@ -1123,6 +1223,22 @@ texture = ExtResource( 31 )
 position = Vector2( 266, 258 )
 texture = ExtResource( 28 )
 
+[node name="Button" type="Button" parent="."]
+margin_left = -46.0
+margin_top = -12.0
+margin_right = 198.0
+margin_bottom = 301.0
+flat = true
+
+[node name="pause" type="Button" parent="."]
+margin_left = -3.0
+margin_right = 42.0
+margin_bottom = 20.0
+custom_fonts/font = SubResource( 61 )
+text = "Pause"
+icon = ExtResource( 36 )
+flat = true
+
 [connection signal="area_entered" from="ship/dead_area" to="." method="_on_dead_area_area_entered"]
 [connection signal="area_entered" from="ship/dead_area" to="ship" method="_on_dead_area_area_entered"]
 [connection signal="animation_finished" from="ship/anim" to="." method="_on_anim_animation_finished"]
@@ -1134,24 +1250,24 @@ texture = ExtResource( 28 )
 [connection signal="timeout" from="HUD/minimap/spawn_timer" to="cenario/inimigos" method="_on_spawn_timer_timeout"]
 [connection signal="animation_finished" from="HUD/minimap/anim" to="HUD/minimap" method="_on_anim_animation_finished"]
 [connection signal="pressed" from="HUD/minimap/marketplace/speed" to="." method="_on_speed_pressed"]
+[connection signal="pressed" from="HUD/minimap/marketplace/speed" to="HUD" method="_on_speed_pressed"]
 [connection signal="pressed" from="HUD/minimap/marketplace/hp" to="." method="_on_hp_pressed"]
+[connection signal="pressed" from="HUD/minimap/marketplace/hp" to="HUD" method="_on_hp_pressed"]
 [connection signal="pressed" from="HUD/minimap/marketplace/friend" to="." method="_on_friend_pressed"]
+[connection signal="pressed" from="HUD/minimap/marketplace/friend" to="HUD" method="_on_friend_pressed"]
 [connection signal="pressed" from="HUD/minimap/marketplace/laser" to="." method="_on_laser_pressed"]
+[connection signal="pressed" from="HUD/minimap/marketplace/laser" to="HUD" method="_on_laser_pressed"]
 [connection signal="timeout" from="HUD/minimap/distance/clock" to="." method="_on_clock_timeout"]
 [connection signal="pressed" from="HUD/goBack/yes" to="." method="_on_yes_pressed"]
 [connection signal="pressed" from="HUD/goBack/no" to="." method="_on_no_pressed"]
-[connection signal="button_down" from="HUD/buttons/up" to="." method="_on_up_button_down"]
-[connection signal="pressed" from="HUD/buttons/up" to="." method="_on_up_pressed"]
-[connection signal="toggled" from="HUD/buttons/up" to="." method="_on_up_toggled"]
-[connection signal="pressed" from="HUD/buttons/down" to="." method="_on_down_pressed"]
-[connection signal="pressed" from="HUD/buttons/right" to="." method="_on_right_pressed"]
-[connection signal="pressed" from="HUD/buttons/left" to="." method="_on_left_pressed"]
-[connection signal="pressed" from="HUD/buttons/fire" to="." method="_on_fire_pressed"]
 [connection signal="pressed" from="HUD/ready/enviar" to="." method="_on_enviar_pressed"]
 [connection signal="pressed" from="HUD/ready/enviar2" to="." method="_on_enviar2_pressed"]
 [connection signal="pressed" from="HUD/ready/enviar2" to="ship" method="_on_enviar2_pressed"]
+[connection signal="timeout" from="HUD/ready/Timer" to="." method="_on_Timer_timeout"]
 [connection signal="pressed" from="HUD/morte/jogar" to="." method="_on_jogar_pressed"]
 [connection signal="pressed" from="HUD/morte/sair" to="." method="_on_sair_pressed"]
 [connection signal="pressed" from="HUD/morte/scores" to="." method="_on_scores_pressed"]
+[connection signal="pressed" from="Button" to="ship" method="_on_Button_pressed"]
+[connection signal="pressed" from="pause" to="." method="_on_pause_pressed"]
 
 [editable path="ship/shield"]
