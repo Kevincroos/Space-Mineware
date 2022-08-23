@@ -6,8 +6,6 @@
 
 ## 🔹(ITCH.IO) > https://kevincroos.itch.io/space-mineware
 
-> Inspirado no projeto: https://youtu.be/s-P0kuHBOAU.
-
 > Programado por Otávio Augustus.
 
 @ GDScript - Godot.
